@@ -28,6 +28,12 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring.version}</version> <!-- 사용 중인 Spring 버전에 맞게 조정 -->
+        </dependency>
+
         <!-- Servlet API (컨테이너 제공) -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -49,6 +55,18 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
             <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
         </dependency>
 
         <!-- Oracle Autonomous DB용 드라이버 + PKI -->
