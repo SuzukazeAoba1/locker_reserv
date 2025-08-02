@@ -9,5 +9,8 @@
         <module name="locker" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="locker_reserv" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
