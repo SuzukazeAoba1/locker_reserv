@@ -278,7 +278,6 @@ wallet_*/
 *.p12
 *.pem
 *.sso
-*.zip
 
 # 실제 비번/설정 들어가는 파일들
 /application.properties
