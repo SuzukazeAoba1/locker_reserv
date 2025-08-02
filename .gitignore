@@ -274,16 +274,16 @@ $RECYCLE.BIN/
 # === 오라클 월렛 / 인증서 / 키 ===
 /wallet_db/
 wallet_*/
-*.jks
-*.p12
-*.pem
-*.sso
+**/*.jks
+**/*.p12
+**/*.pem
+**/*.sso
 
 # 실제 비번/설정 들어가는 파일들
-/application.properties
-/application.yml
-/application-*.properties
-/application-*.yml
+**/application.properties
+**/application.yml
+**/application-*.properties
+**/application-*.yml
 *.env
 
 # 단, 템플릿은 올릴 수 있게 예외 처리
