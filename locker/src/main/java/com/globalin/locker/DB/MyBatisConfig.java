@@ -23,14 +23,13 @@ public class MyBatisConfig {
     private final String dbUrl;
     private final String dbUsername;
     private final String dbPassword;
-    private final String walletPath;
 
     public MyBatisConfig() {
         Dotenv dotenv = Dotenv.load();
         this.dbUrl = dotenv.get("DB_URL");
         this.dbUsername = dotenv.get("DB_USER");
         this.dbPassword = dotenv.get("DB_PASSWORD");
-        this.walletPath = dotenv.get("DB_WALLET_PATH");
+        String walletPath = dotenv.get("DB_WALLET_PATH");
 
         // Oracle Wallet 경로를 시스템 속성으로 설정
         System.setProperty("oracle.net.wallet_location", walletPath);
