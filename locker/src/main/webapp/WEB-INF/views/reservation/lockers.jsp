@@ -5,6 +5,6 @@
     <title>타이틀</title>
 </head>
 <body>
-    <!-- 내용 -->
+    <h1>여기는 로커정보 확인하는 곳!</h1>
 </body>
 </html>
