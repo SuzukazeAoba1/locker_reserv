@@ -11,4 +11,10 @@ public class IndexController {
         // /WEB-INF/views/index.jsp로 포워딩
         return "index";
     }
+
+    @GetMapping("/lockers")
+    public String lockers() {
+        // /WEB-INF/views/index.jsp로 포워딩
+        return "reservation/lockers";
+    }
 }

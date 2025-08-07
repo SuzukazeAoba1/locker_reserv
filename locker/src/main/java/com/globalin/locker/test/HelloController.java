@@ -1,4 +1,4 @@
-package com.globalin.locker;
+package com.globalin.locker.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

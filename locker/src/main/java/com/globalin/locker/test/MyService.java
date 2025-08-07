@@ -1,4 +1,4 @@
-package com.globalin.locker;
+package com.globalin.locker.test;
 
 import com.globalin.locker.mapper.TableMapper;
 import com.globalin.locker.mapper.UserMapper;
