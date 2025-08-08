@@ -31,6 +31,12 @@
             <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version> <!-- 최신 버전으로 설정하세요 -->
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Servlet API (컨테이너 제공) -->
         <dependency>

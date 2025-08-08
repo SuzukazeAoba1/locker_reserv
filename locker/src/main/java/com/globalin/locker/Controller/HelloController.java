@@ -1,5 +1,6 @@
-package com.globalin.locker;
+package com.globalin.locker.Controller;
 
+import com.globalin.locker.Service.MyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +20,8 @@ public class HelloController {
 
         // DB에서 조회한 데이터 출력
         myService.fetchAllTables();
-        myService.fetchDataAndInsert();
-        myService.getData();
+        //myService.fetchDataAndInsert();
+        //myService.getData();
 
         // 모델에 메시지 추가
         model.addAttribute("message", "헬로 월드!");
