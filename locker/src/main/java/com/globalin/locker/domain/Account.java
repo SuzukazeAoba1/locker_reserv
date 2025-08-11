@@ -1,4 +1,4 @@
-package com.globalin.locker.mapper;
+package com.globalin.locker.domain;
 
 import lombok.Getter;
 import lombok.Setter;

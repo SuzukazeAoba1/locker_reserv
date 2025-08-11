@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.globalin.locker.mapper.AccountMapper">
+
+    <!-- 컬럼 ↔ 필드 매핑 -->
+    <resultMap id="AccountResultMap" type="com.globalin.locker.domain.Account">
+        <id property="id" column="id" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="role" column="role" />
+        <result property="email" column="email" />
+        <result property="phoneNumber" column="phone_number" />
+        <result property="isActive" column="is_active" />
+        <result property="createdAt" column="created_at" />
+    </resultMap>
+
+    <!-- Create -->
+    <insert id="insert" parameterType="com.globalin.locker.domain.Account" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO accounts (username, password, role, email, phone_number, is_active, created_at)
+        VALUES (#{username}, #{password}, #{role}, #{email}, #{phoneNumber}, #{isActive}, SYSTIMESTAMP)
+    </insert>
+
+    <!-- Read by id -->
+    <select id="selectById" parameterType="int" resultMap="AccountResultMap">
+        SELECT * FROM accounts WHERE id = #{id}
+    </select>
+
+    <!-- Read all -->
+    <select id="selectAll" resultMap="AccountResultMap">
+        SELECT * FROM accounts ORDER BY id
+    </select>
+
+    <!-- Update -->
+    <update id="update" parameterType="com.globalin.locker.domain.Account">
+        UPDATE accounts
+        SET username = #{username},
+        password = #{password},
+        role = #{role},
+        email = #{email},
+        phone_number = #{phoneNumber},
+        is_active = #{isActive}
+        WHERE id = #{id}
+    </update>
+
+    <!-- Delete -->
+    <delete id="delete" parameterType="int">
+        DELETE FROM accounts WHERE id = #{id}
+    </delete>
+
+</mapper>
