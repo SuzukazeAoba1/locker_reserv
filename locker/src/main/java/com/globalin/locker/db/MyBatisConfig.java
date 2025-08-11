@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -20,35 +21,18 @@ import javax.sql.DataSource;
 @MapperScan("com.globalin.locker.mapper")
 public class MyBatisConfig {
 
-    private final String dbUrl;
-    private final String dbUsername;
-    private final String dbPassword;
-
-    public MyBatisConfig() {
-        Dotenv dotenv = Dotenv.load();
-        this.dbUrl = dotenv.get("DB_URL");
-        this.dbUsername = dotenv.get("DB_USER");
-        this.dbPassword = dotenv.get("DB_PASSWORD");
-        String walletPath = dotenv.get("DB_WALLET_PATH");
-
-        // Oracle Wallet 경로를 시스템 속성으로 설정
-        System.setProperty("oracle.net.wallet_location", walletPath);
-    }
+    @Autowired
+    private HikariConfig hikariConfig;
 
     @Bean
     public DataSource dataSource() {
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(dbUrl);
-        config.setUsername(dbUsername);
-        config.setPassword(dbPassword);
-        config.setDriverClassName("oracle.jdbc.OracleDriver");
 
-        config.setMaximumPoolSize(10);
-        config.setMinimumIdle(2);
-        config.setIdleTimeout(30000);
-        config.setConnectionTimeout(30000);
+        hikariConfig.setMaximumPoolSize(10);
+        hikariConfig.setMinimumIdle(2);
+        hikariConfig.setIdleTimeout(30000);
+        hikariConfig.setConnectionTimeout(30000);
 
-        return new HikariDataSource(config);
+        return new HikariDataSource(hikariConfig);
     }
 
     @Bean

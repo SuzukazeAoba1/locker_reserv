@@ -279,6 +279,7 @@ wallet_*/
 *.pem
 *.sso
 *.env
+**/db.properties
 
 # 단, 템플릿은 올릴 수 있게 예외 처리
 !application-example.properties
