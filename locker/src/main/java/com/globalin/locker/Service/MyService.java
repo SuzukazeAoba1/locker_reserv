@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:locker/src/main/java/com/globalin/locker/test/MyService.java
-package com.globalin.locker.test;
-========
 package com.globalin.locker.Service;
->>>>>>>> jeong:locker/src/main/java/com/globalin/locker/Service/MyService.java
 
 import com.globalin.locker.mapper.TableMapper;
 import com.globalin.locker.mapper.UserMapper;

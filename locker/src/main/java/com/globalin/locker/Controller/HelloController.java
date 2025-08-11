@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:locker/src/main/java/com/globalin/locker/test/HelloController.java
-package com.globalin.locker.test;
-========
 package com.globalin.locker.Controller;
->>>>>>>> jeong:locker/src/main/java/com/globalin/locker/Controller/HelloController.java
 
 import com.globalin.locker.Service.MyService;
 import org.springframework.beans.factory.annotation.Autowired;
