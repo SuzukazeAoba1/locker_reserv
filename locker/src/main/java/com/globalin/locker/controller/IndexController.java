@@ -1,4 +1,4 @@
-package com.globalin.locker.Controller;
+package com.globalin.locker.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

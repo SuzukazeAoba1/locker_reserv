@@ -1,6 +1,6 @@
-package com.globalin.locker.Controller;
+package com.globalin.locker.controller;
 
-import com.globalin.locker.Service.MyService;
+import com.globalin.locker.service.MyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,4 +1,4 @@
-package com.globalin.locker.DB;
+package com.globalin.locker.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
