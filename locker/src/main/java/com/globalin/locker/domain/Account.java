@@ -1,12 +1,13 @@
 package com.globalin.locker.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Account {
     private int id;
     private String username;
