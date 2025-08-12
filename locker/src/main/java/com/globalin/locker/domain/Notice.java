@@ -2,7 +2,7 @@ package com.globalin.locker.domain;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -13,5 +13,5 @@ public class Notice {
     private String title;
     private String content;
     private Long authorId;
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 }

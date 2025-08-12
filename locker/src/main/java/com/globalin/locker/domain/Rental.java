@@ -2,7 +2,7 @@ package com.globalin.locker.domain;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,9 +12,9 @@ public class Rental {
     private Long id;
     private Long userId;
     private Long lockerId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Timestamp startTime;
+    private Timestamp endTime;
     private String status;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 }

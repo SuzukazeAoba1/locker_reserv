@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.globalin.locker.mapper.NoticeMapper">
+
+    <resultMap id="NoticeResultMap" type="com.globalin.locker.domain.Notice">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="authorId" column="author_id"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="NoticeResultMap">
+        SELECT * FROM notices ORDER BY id
+    </select>
+
+</mapper>
