@@ -5,16 +5,70 @@
 
 <mapper namespace="com.globalin.locker.mapper.NoticeMapper">
 
+    <!-- ResultMap -->
     <resultMap id="NoticeResultMap" type="com.globalin.locker.domain.Notice">
-        <id property="id" column="id"/>
-        <result property="title" column="title"/>
-        <result property="content" column="content"/>
-        <result property="authorId" column="author_id"/>
-        <result property="createdAt" column="created_at"/>
+        <id     property="id"        column="ID"/>
+        <result property="title"     column="TITLE"/>
+        <result property="content"   column="CONTENT"/>
+        <result property="authorId"  column="AUTHOR_ID"/>
+        <result property="createdAt" column="CREATED_AT"/>
     </resultMap>
 
+    <!-- 공통 컬럼 목록 -->
+    <sql id="Notice_Columns">
+        ID, TITLE, CONTENT, AUTHOR_ID, CREATED_AT
+    </sql>
+
+    <!-- Read: 전체 -->
     <select id="selectAll" resultMap="NoticeResultMap">
-        SELECT * FROM notices ORDER BY id
+        SELECT <include refid="Notice_Columns"/>
+        FROM NOTICES
+        ORDER BY ID
     </select>
+
+    <!-- Read: 단건 (PK) -->
+    <select id="selectById" parameterType="long" resultMap="NoticeResultMap">
+        SELECT <include refid="Notice_Columns"/>
+        FROM NOTICES
+        WHERE ID = #{id}
+    </select>
+
+    <!-- (선택) 작성자별 목록 -->
+    <select id="selectByAuthorId" parameterType="long" resultMap="NoticeResultMap">
+        SELECT <include refid="Notice_Columns"/>
+        FROM NOTICES
+        WHERE AUTHOR_ID = #{authorId}
+        ORDER BY ID DESC
+    </select>
+
+    <!-- 페이징 (Oracle 12c+) -->
+    <select id="selectPage" resultMap="NoticeResultMap">
+        SELECT <include refid="Notice_Columns"/>
+        FROM NOTICES
+        ORDER BY ID DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <!-- Create: IDENTITY + DEFAULT CURRENT_TIMESTAMP 사용 -->
+    <insert id="insert"
+            parameterType="com.globalin.locker.domain.Notice"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO NOTICES (TITLE, CONTENT, AUTHOR_ID)
+        VALUES (#{title}, #{content}, #{authorId})
+    </insert>
+
+    <!-- Update -->
+    <update id="update" parameterType="com.globalin.locker.domain.Notice">
+        UPDATE NOTICES
+        SET TITLE     = #{title},
+        CONTENT   = #{content},
+        AUTHOR_ID = #{authorId}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM NOTICES WHERE ID = #{id}
+    </delete>
 
 </mapper>

@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
-@Controller
-@RequestMapping("/test")         // 모든 라우트를 /test 아래로 격리
-@RequiredArgsConstructor         // 생성자 주입 보일러플레이트 제거
+@Slf4j                        // ✅ Lombok: log 객체(log.debug(), log.info() 등) 자동 생성
+@Controller                   // ✅ Spring MVC: 이 클래스를 컨트롤러로 등록 (View 반환 가능)
+@RequestMapping("/test")      // ✅ 기본 URL 경로 prefix 설정 → 모든 메서드 URL 앞에 "/test" 붙음
+@RequiredArgsConstructor      // ✅ Lombok: final 필드나 @NonNull 필드에 대한 생성자 자동 생성 (DI 용이)
 public class TestController {
 
     private final AccountService accountService;
@@ -23,6 +23,7 @@ public class TestController {
     private final RentalService rentalService;
     private final LockerService lockerService;
 
+    // 회원 테이블 뷰
     @GetMapping("/accounts")
     public String accountsList(Model model) {
         List<Account> accounts = accountService.getAllAccounts();
@@ -30,6 +31,7 @@ public class TestController {
         return "_test/accounts/list"; // /WEB-INF/views/test/accounts/list.jsp
     }
 
+    // 공지사항 테이블 뷰
     @GetMapping("/notices")
     public String noticesList(Model model) {
         List<Notice> notices = noticeService.getAllNotices();
@@ -38,14 +40,7 @@ public class TestController {
         return "_test/notices/list"; // /WEB-INF/views/test/notices/list.jsp
     }
 
-    @GetMapping("/rentals")
-    public String rentalsList(Model model) {
-        List<Rental> rentals = rentalService.getAllRentals();
-        log.debug("rentals size={}", rentals.size());
-        model.addAttribute("rentals", rentals);
-        return "_test/rentals/list"; // /WEB-INF/views/test/rentals/list.jsp
-    }
-
+    // 라커 테이블 뷰
     @GetMapping("/lockers")
     public String lockersList(Model model) {
         List<Locker> lockers = lockerService.getAllLockers();
@@ -54,7 +49,14 @@ public class TestController {
         return "_test/lockers/list"; // /WEB-INF/views/test/lockers/list.jsp
     }
 
-
+    // 렌탈 테이블 뷰
+    @GetMapping("/rentals")
+    public String rentalsList(Model model) {
+        List<Rental> rentals = rentalService.getAllRentals();
+        log.debug("rentals size={}", rentals.size());
+        model.addAttribute("rentals", rentals);
+        return "_test/rentals/list"; // /WEB-INF/views/test/rentals/list.jsp
+    }
 
     // ========================================
     // Accounts: Postman 테스트용 JSON CRUD
@@ -113,5 +115,167 @@ public class TestController {
         return ResponseEntity.noContent().build();
     }
 
+
+    // =========================
+    // Lockers: Postman 테스트용 JSON CRUD
+    // =========================
+
+    // 목록
+    @GetMapping(value = "/api/lockers", produces = "application/json")
+    @ResponseBody
+    public List<Locker> apiLockersList() {
+        return lockerService.getAllLockers();
+    }
+
+    // 단건
+    @GetMapping(value = "/api/lockers/{id}", produces = "application/json")
+    public ResponseEntity<Locker> apiLockersOne(@PathVariable long id) {
+        Locker l = lockerService.getLockerById(id);
+        return (l != null) ? ResponseEntity.ok(l) : ResponseEntity.notFound().build();
+    }
+
+    // 생성
+    @PostMapping(value = "/api/lockers", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Locker> apiLockersCreate(@RequestBody Locker locker,
+                                                   org.springframework.web.util.UriComponentsBuilder ucb) {
+        int rows = lockerService.createLocker(locker); // useGeneratedKeys=true 면 id 세팅
+        if (rows == 1 && locker.getId() != 0) {
+            var location = ucb.path("/test/api/lockers/{id}").buildAndExpand(locker.getId()).toUri();
+            return ResponseEntity.created(location).body(locker);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    // 수정
+    @PutMapping(value = "/api/lockers/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Locker> apiLockersUpdate(@PathVariable long id, @RequestBody Locker locker) {
+        locker.setId(id);
+        int rows = lockerService.updateLocker(locker);
+        if (rows == 0) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(locker);
+    }
+
+    // 삭제
+    @DeleteMapping("/api/lockers/{id}")
+    public ResponseEntity<Void> apiLockersDelete(@PathVariable long id) {
+        int rows = lockerService.deleteLocker(id);
+        if (rows == 0) return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
+    }
+
+
+    // =========================
+    // Notices: Postman 테스트용 JSON CRUD
+    // =========================
+
+    // 목록
+    @GetMapping(value = "/api/notices", produces = "application/json")
+    @ResponseBody
+    public List<Notice> apiNoticesList() {
+        return noticeService.getAllNotices();
+    }
+
+    // 단건
+    @GetMapping(value = "/api/notices/{id}", produces = "application/json")
+    public ResponseEntity<Notice> apiNoticesOne(@PathVariable long id) {
+        Notice n = noticeService.getNoticeById(id);
+        return (n != null) ? ResponseEntity.ok(n) : ResponseEntity.notFound().build();
+    }
+
+    // 작성자별 검색
+    @GetMapping(value = "/api/notices/search", produces = "application/json")
+    public ResponseEntity<List<Notice>> apiNoticesByAuthor(@RequestParam long authorId) {
+        List<Notice> list = noticeService.getNoticesByAuthorId(authorId);
+        return ResponseEntity.ok(list);
+    }
+
+    // 생성
+    @PostMapping(value = "/api/notices", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Notice> apiNoticesCreate(@RequestBody Notice notice,
+                                                   org.springframework.web.util.UriComponentsBuilder ucb) {
+        int rows = noticeService.createNotice(notice);
+        if (rows == 1 && notice.getId() != 0) {
+            var location = ucb.path("/test/api/notices/{id}").buildAndExpand(notice.getId()).toUri();
+            return ResponseEntity.created(location).body(notice);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    // 수정
+    @PutMapping(value = "/api/notices/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Notice> apiNoticesUpdate(@PathVariable long id, @RequestBody Notice notice) {
+        notice.setId(id);
+        int rows = noticeService.updateNotice(notice);
+        if (rows == 0) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(notice);
+    }
+
+    // 삭제
+    @DeleteMapping("/api/notices/{id}")
+    public ResponseEntity<Void> apiNoticesDelete(@PathVariable long id) {
+        int rows = noticeService.deleteNotice(id);
+        if (rows == 0) return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
+    }
+
+
+    // =========================
+    // Rentals: Postman 테스트용 JSON CRUD
+    // =========================
+
+    // 목록
+    @GetMapping(value = "/api/rentals", produces = "application/json")
+    @ResponseBody
+    public List<Rental> apiRentalsList() {
+        return rentalService.getAllRentals();
+    }
+
+    // 단건
+    @GetMapping(value = "/api/rentals/{id}", produces = "application/json")
+    public ResponseEntity<Rental> apiRentalsOne(@PathVariable long id) {
+        Rental r = rentalService.getRentalById(id);
+        return (r != null) ? ResponseEntity.ok(r) : ResponseEntity.notFound().build();
+    }
+
+    // 사용자별
+    @GetMapping(value = "/api/rentals/by-user/{userId}", produces = "application/json")
+    public ResponseEntity<List<Rental>> apiRentalsByUser(@PathVariable long userId) {
+        return ResponseEntity.ok(rentalService.getRentalsByUserId(userId));
+    }
+
+    // 락커별
+    @GetMapping(value = "/api/rentals/by-locker/{lockerId}", produces = "application/json")
+    public ResponseEntity<List<Rental>> apiRentalsByLocker(@PathVariable long lockerId) {
+        return ResponseEntity.ok(rentalService.getRentalsByLockerId(lockerId));
+    }
+
+    // 생성
+    @PostMapping(value = "/api/rentals", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Rental> apiRentalsCreate(@RequestBody Rental rental,
+                                                   org.springframework.web.util.UriComponentsBuilder ucb) {
+        int rows = rentalService.createRental(rental);
+        if (rows == 1 && rental.getId() != 0) {
+            var location = ucb.path("/test/api/rentals/{id}").buildAndExpand(rental.getId()).toUri();
+            return ResponseEntity.created(location).body(rental);
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+
+    // 수정
+    @PutMapping(value = "/api/rentals/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Rental> apiRentalsUpdate(@PathVariable long id, @RequestBody Rental rental) {
+        rental.setId(id);
+        int rows = rentalService.updateRental(rental);
+        if (rows == 0) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(rental);
+    }
+
+    // 삭제
+    @DeleteMapping("/api/rentals/{id}")
+    public ResponseEntity<Void> apiRentalsDelete(@PathVariable long id) {
+        int rows = rentalService.deleteRental(id);
+        if (rows == 0) return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
+    }
 
 }

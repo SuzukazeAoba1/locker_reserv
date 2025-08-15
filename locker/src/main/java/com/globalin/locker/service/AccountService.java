@@ -15,10 +15,14 @@ public class AccountService {
         this.accountMapper = accountMapper;
     }
 
-    // Read
+    // 리스트 모두 출력
     public List<Account> getAllAccounts() {
         return accountMapper.selectAll();
     }
+
+    // ========================================
+    // Accounts: Postman 테스트용 단순 컬럼 반환
+    // ========================================
 
     public Account getAccountById(long id) {
         return accountMapper.selectById(id);

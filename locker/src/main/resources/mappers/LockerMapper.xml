@@ -5,19 +5,68 @@
 
 <mapper namespace="com.globalin.locker.mapper.LockerMapper">
 
+    <!-- ResultMap -->
     <resultMap id="LockerResultMap" type="com.globalin.locker.domain.Locker">
-        <id property="id" column="id"/>
-        <result property="location" column="location"/>
-        <result property="x" column="x"/>
-        <result property="y" column="y"/>
-        <result property="capacity" column="capacity"/>
-        <result property="price" column="price"/>
-        <result property="status" column="status"/>
-        <result property="createdAt" column="created_at"/>
+        <id     property="id"        column="ID"/>
+        <result property="location"  column="LOCATION"/>
+        <result property="x"         column="X"/>
+        <result property="y"         column="Y"/>
+        <result property="capacity"  column="CAPACITY"/>
+        <result property="price"     column="PRICE"/>
+        <result property="status"    column="STATUS"/>
+        <result property="createdAt" column="CREATED_AT"/>
     </resultMap>
 
+    <!-- 공통 컬럼 목록 -->
+    <sql id="Locker_Columns">
+        ID, LOCATION, X, Y, CAPACITY, PRICE, STATUS, CREATED_AT
+    </sql>
+
+    <!-- Read: 전체 -->
     <select id="selectAll" resultMap="LockerResultMap">
-        SELECT * FROM Lockers ORDER BY id
+        SELECT <include refid="Locker_Columns"/>
+        FROM LOCKERS
+        ORDER BY ID
     </select>
+
+    <!-- Read: 단건 (PK) -->
+    <select id="selectById" parameterType="long" resultMap="LockerResultMap">
+        SELECT <include refid="Locker_Columns"/>
+        FROM LOCKERS
+        WHERE ID = #{id}
+    </select>
+
+    <!-- Read: 페이징 (Oracle 12c+) -->
+    <select id="selectPage" resultMap="LockerResultMap">
+        SELECT <include refid="Locker_Columns"/>
+        FROM LOCKERS
+        ORDER BY ID DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <!-- Create: IDENTITY + DEFAULT CURRENT_TIMESTAMP 사용 -->
+    <insert id="insert"
+            parameterType="com.globalin.locker.domain.Locker"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO LOCKERS (LOCATION, X, Y, CAPACITY, PRICE, STATUS)
+        VALUES (#{location}, #{x}, #{y}, #{capacity}, #{price}, #{status})
+    </insert>
+
+    <!-- Update: 정적 전체 업데이트 -->
+    <update id="update" parameterType="com.globalin.locker.domain.Locker">
+        UPDATE LOCKERS
+        SET LOCATION = #{location},
+        X        = #{x},
+        Y        = #{y},
+        CAPACITY = #{capacity},
+        PRICE    = #{price},
+        STATUS   = #{status}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- Delete: 물리 삭제 -->
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM LOCKERS WHERE ID = #{id}
+    </delete>
 
 </mapper>

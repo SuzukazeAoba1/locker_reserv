@@ -5,19 +5,84 @@
 
 <mapper namespace="com.globalin.locker.mapper.RentalMapper">
 
+    <!-- ResultMap -->
     <resultMap id="RentalResultMap" type="com.globalin.locker.domain.Rental">
-        <id property="id" column="id"/>
-        <result property="userId" column="user_id"/>
-        <result property="lockerId" column="locker_id"/>
-        <result property="startTime" column="start_time"/>
-        <result property="endTime" column="end_time"/>
-        <result property="status" column="status"/>
-        <result property="createdAt" column="created_at"/>
-        <result property="updatedAt" column="updated_at"/>
+        <id     property="id"        column="ID"/>
+        <result property="userId"    column="USER_ID"/>
+        <result property="lockerId"  column="LOCKER_ID"/>
+        <result property="startTime" column="START_TIME"/>
+        <result property="endTime"   column="END_TIME"/>
+        <result property="status"    column="STATUS"/>
+        <result property="createdAt" column="CREATED_AT"/>
+        <result property="updatedAt" column="UPDATED_AT"/>
     </resultMap>
 
+    <!-- 공통 컬럼 목록 -->
+    <sql id="Rental_Columns">
+        ID, USER_ID, LOCKER_ID, START_TIME, END_TIME, STATUS, CREATED_AT, UPDATED_AT
+    </sql>
+
+    <!-- Read: 전체 -->
     <select id="selectAll" resultMap="RentalResultMap">
-        SELECT * FROM rentals ORDER BY id
+        SELECT <include refid="Rental_Columns"/>
+        FROM RENTALS
+        ORDER BY ID
     </select>
+
+    <!-- Read: 단건 (PK) -->
+    <select id="selectById" parameterType="long" resultMap="RentalResultMap">
+        SELECT <include refid="Rental_Columns"/>
+        FROM RENTALS
+        WHERE ID = #{id}
+    </select>
+
+    <!-- Read: 사용자별 -->
+    <select id="selectByUserId" parameterType="long" resultMap="RentalResultMap">
+        SELECT <include refid="Rental_Columns"/>
+        FROM RENTALS
+        WHERE USER_ID = #{userId}
+        ORDER BY ID DESC
+    </select>
+
+    <!-- Read: 락커별 -->
+    <select id="selectByLockerId" parameterType="long" resultMap="RentalResultMap">
+        SELECT <include refid="Rental_Columns"/>
+        FROM RENTALS
+        WHERE LOCKER_ID = #{lockerId}
+        ORDER BY ID DESC
+    </select>
+
+    <!-- 페이징 (Oracle 12c+) -->
+    <select id="selectPage" resultMap="RentalResultMap">
+        SELECT <include refid="Rental_Columns"/>
+        FROM RENTALS
+        ORDER BY ID DESC
+        OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <!-- Create: IDENTITY + CREATED_AT DEFAULT 사용 -->
+    <insert id="insert"
+            parameterType="com.globalin.locker.domain.Rental"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO RENTALS (USER_ID, LOCKER_ID, START_TIME, END_TIME, STATUS)
+        VALUES (#{userId}, #{lockerId}, #{startTime}, #{endTime}, #{status})
+    </insert>
+
+    <!-- Update: UPDATED_AT 자동 갱신 -->
+    <update id="update" parameterType="com.globalin.locker.domain.Rental">
+        UPDATE RENTALS
+        SET USER_ID     = #{userId},
+        LOCKER_ID       = #{lockerId},
+        START_TIME      = #{startTime},
+        END_TIME        = #{endTime},
+        STATUS          = #{status},
+        UPDATED_AT      = SYSTIMESTAMP
+        WHERE ID        = #{id}
+    </update>
+
+    <!-- Delete -->
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM RENTALS WHERE ID = #{id}
+    </delete>
 
 </mapper>

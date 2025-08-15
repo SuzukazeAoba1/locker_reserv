@@ -16,8 +16,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
-@Configuration
-@MapperScan("com.globalin.locker.mapper") // <-- 중요!
+@Configuration                                    // ✅ Spring 설정 클래스임을 명시 (Bean 등록 가능)
+@MapperScan("com.globalin.locker.mapper")         // ✅ MyBatis 매퍼 인터페이스가 있는 패키지 지정
 public class MyBatisConfig {
 
     @Autowired
