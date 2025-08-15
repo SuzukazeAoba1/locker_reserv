@@ -22,14 +22,14 @@
         VALUES (#{username}, #{password}, #{role}, #{email}, #{phoneNumber}, #{isActive}, SYSTIMESTAMP)
     </insert>
 
-    <!-- Read by id -->
-    <select id="selectById" parameterType="int" resultMap="AccountResultMap">
-        SELECT * FROM accounts WHERE id = #{id}
-    </select>
-
     <!-- Read all -->
     <select id="selectAll" resultMap="AccountResultMap">
         SELECT * FROM accounts ORDER BY id
+    </select>
+
+    <!-- Read by id -->
+    <select id="selectById" parameterType="int" resultMap="AccountResultMap">
+        SELECT * FROM accounts WHERE id = #{id}
     </select>
 
     <!-- Update -->

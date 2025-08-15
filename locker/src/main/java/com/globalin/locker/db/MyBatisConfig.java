@@ -17,8 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import javax.sql.DataSource;
 
 @Configuration
-// 매퍼 인터페이스를 두는 패키지로 수정할 것
-@MapperScan("com.globalin.locker.mapper")
+@MapperScan("com.globalin.locker.mapper") // <-- 중요!
 public class MyBatisConfig {
 
     @Autowired

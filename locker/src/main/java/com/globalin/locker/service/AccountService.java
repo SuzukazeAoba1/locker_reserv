@@ -14,16 +14,16 @@ public class AccountService {
         this.accountMapper = accountMapper;
     }
 
+    public List<Account> getAllAccounts() {
+        return accountMapper.selectAll();
+    }
+
     public void createAccount(Account account) {
         accountMapper.insert(account);
     }
 
     public Account getAccount(int id) {
         return accountMapper.selectById(id);
-    }
-
-    public List<Account> getAllAccounts() {
-        return accountMapper.selectAll();
     }
 
     public void updateAccount(Account account) {

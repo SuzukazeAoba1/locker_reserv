@@ -8,7 +8,11 @@ public class IndexController {
 
     @GetMapping("/")
     public String index() {
-        // /WEB-INF/views/index.jsp로 포워딩
         return "index";
+    }
+
+    @GetMapping("/error")
+    public String errorPage() {
+        return "error"; // /WEB-INF/views/error.jsp
     }
 }

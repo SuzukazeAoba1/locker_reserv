@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
-         http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-         http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
-         http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <!-- 컨트롤러 스캔 -->
-    <context:component-scan base-package="com.globalin.locker"/>
+    <!-- ✅ 컨트롤러만 스캔 -->
+    <context:component-scan base-package="com.globalin.locker.controller"/>
 
-    <!-- 어노테이션 기반 매핑 활성화 -->
+    <!-- ✅ @GetMapping/@PostMapping 등 활성화 -->
     <mvc:annotation-driven/>
 
-    <!-- JSP 뷰 리졸버 -->
+    <!-- ✅ JSP 뷰 리졸버 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/views/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!-- (선택) 정적 리소스 서빙 -->
+    <!-- /resources/**  →  /resources/  폴더 매핑 -->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <!-- (선택) 기본 서블릿으로 정적 리소스 위임 -->
+    <mvc:default-servlet-handler/>
 </beans>
