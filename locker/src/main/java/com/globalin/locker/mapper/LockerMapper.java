@@ -12,6 +12,10 @@ import java.util.List;
 // 예: selectAll() ↔ <select id="selectAll"> ... </select>
 public interface LockerMapper {
 
+    //위치 기반 로커 검색
+    List<Locker> selectByLocation(String location);
+
+
     List<Locker> selectAll();
     Locker selectById(@Param("id") long id);
     List<Locker> selectPage(@Param("offset") int offset,

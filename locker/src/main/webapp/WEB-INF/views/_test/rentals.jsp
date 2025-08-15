@@ -40,7 +40,7 @@
                     <td>${a.lockerId}</td>
                     <td>${a.status}</td>
                     <td><fmt:formatDate value="${a.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <td><fmt:formatDate value="${a.endTime}"   pattern="yyyy-MM-dd HH:mm:ss"/></td> <!-- fix -->
+                    <td><fmt:formatDate value="${a.endTime}"   pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td><fmt:formatDate value="${a.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td><fmt:formatDate value="${a.updatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                   </tr>

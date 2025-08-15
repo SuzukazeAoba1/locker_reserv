@@ -29,6 +29,14 @@
         ORDER BY ID
     </select>
 
+    <!-- Read: 위치 기반 -->
+    <select id="selectByLocation" parameterType="string" resultType="com.globalin.locker.domain.Locker">
+        SELECT <include refid="Locker_Columns"/>
+        FROM LOCKERS
+        WHERE LOCATION = #{location}
+        ORDER BY X, Y
+    </select>
+
     <!-- Read: 단건 (PK) -->
     <select id="selectById" parameterType="long" resultMap="LockerResultMap">
         SELECT <include refid="Locker_Columns"/>

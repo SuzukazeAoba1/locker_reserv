@@ -20,6 +20,11 @@ public class LockerService {
         return lockerMapper.selectAll();
     }
 
+    //위치 기반 라커 검색
+    public List<Locker> getLockersByLocation(String location) {
+        return lockerMapper.selectByLocation(location);
+    }
+
     // ========================================
     // Lockers: Postman 테스트용 단순 컬럼 반환
     // ========================================
