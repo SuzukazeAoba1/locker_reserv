@@ -28,7 +28,7 @@ public class TestController {
     public String accountsList(Model model) {
         List<Account> accounts = accountService.getAllAccounts();
         model.addAttribute("accounts", accounts);
-        return "_test/accounts/list"; // /WEB-INF/views/test/accounts/list.jsp
+        return "_test/accounts"; // /WEB-INF/views/test/accounts/accounts.jsp
     }
 
     // 공지사항 테이블 뷰
@@ -37,7 +37,7 @@ public class TestController {
         List<Notice> notices = noticeService.getAllNotices();
         log.debug("notices size={}", notices.size());
         model.addAttribute("notices", notices);
-        return "_test/notices/list"; // /WEB-INF/views/test/notices/list.jsp
+        return "_test/notices"; // /WEB-INF/views/test/notices/accounts.jsp
     }
 
     // 라커 테이블 뷰
@@ -46,7 +46,7 @@ public class TestController {
         List<Locker> lockers = lockerService.getAllLockers();
         log.debug("lockers size={}", lockers.size());
         model.addAttribute("lockers", lockers);
-        return "_test/lockers/list"; // /WEB-INF/views/test/lockers/list.jsp
+        return "_test/lockers"; // /WEB-INF/views/test/lockers/accounts.jsp
     }
 
     // 렌탈 테이블 뷰
@@ -55,7 +55,7 @@ public class TestController {
         List<Rental> rentals = rentalService.getAllRentals();
         log.debug("rentals size={}", rentals.size());
         model.addAttribute("rentals", rentals);
-        return "_test/rentals/list"; // /WEB-INF/views/test/rentals/list.jsp
+        return "_test/rentals"; // /WEB-INF/views/test/rentals/accounts.jsp
     }
 
     // ========================================
