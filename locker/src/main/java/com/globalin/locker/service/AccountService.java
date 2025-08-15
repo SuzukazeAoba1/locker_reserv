@@ -8,29 +8,38 @@ import java.util.List;
 
 @Service
 public class AccountService {
+
     private final AccountMapper accountMapper;
 
     public AccountService(AccountMapper accountMapper) {
         this.accountMapper = accountMapper;
     }
 
+    // Read
     public List<Account> getAllAccounts() {
         return accountMapper.selectAll();
     }
 
-    public void createAccount(Account account) {
-        accountMapper.insert(account);
-    }
-
-    public Account getAccount(int id) {
+    public Account getAccountById(long id) {
         return accountMapper.selectById(id);
     }
 
-    public void updateAccount(Account account) {
-        accountMapper.update(account);
+    public Account getByUsername(String username) {
+        return accountMapper.selectByUsername(username);
     }
 
-    public void deleteAccount(int id) {
-        accountMapper.delete(id);
+    // Create / Update / Delete
+    public int createAccount(Account account) {
+        // MyBatis XML의 useGeneratedKeys=true 덕분에 insert 후 account.id가 채워집니다.
+        return accountMapper.insert(account);
     }
+
+    public int updateAccount(Account account) {
+        return accountMapper.update(account);
+    }
+
+    public int deleteAccount(long id) {
+        return accountMapper.deleteById(id);
+    }
+
 }

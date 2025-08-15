@@ -5,7 +5,6 @@ import lombok.*;
 import java.sql.Timestamp;
 
 @Data
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class Account {
@@ -17,4 +16,8 @@ public class Account {
     private String phoneNumber;
     private String isActive;
     private Timestamp createdAt;
+
+    public Account() {
+
+    }
 }

@@ -4,6 +4,11 @@
     <title>게시판</title>
 </head>
 <body>
-안녕하세요?
+<ul>
+  <li><a href="/test/accounts">Accounts 목록</a></li>
+  <li><a href="/test/notices">Notices 목록</a></li>
+  <li><a href="/test/rentals">Rentals 목록</a></li>
+  <li><a href="/test/lockers">Lockers 목록</a></li>
+</ul>
 </body>
 </html>

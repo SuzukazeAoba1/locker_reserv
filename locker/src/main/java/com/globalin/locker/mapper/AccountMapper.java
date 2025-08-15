@@ -4,19 +4,13 @@ import com.globalin.locker.domain.Account;
 import java.util.List;
 
 public interface AccountMapper {
-    // Create
-    void insert(Account account);
-
-    // Read (by id)
-    Account selectById(int id);
-
-    // Read all
+    // Read
     List<Account> selectAll();
+    Account selectById(long id);
+    Account selectByUsername(String username);
 
-    // Update
-    void update(Account account);
-
-    // Delete
-    void delete(int id);
+    // Create / Update / Delete
+    int insert(Account account);   // useGeneratedKeys=true면 account.id 자동 세팅
+    int update(Account account);
+    int deleteById(long id);
 }
-

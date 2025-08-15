@@ -5,48 +5,64 @@
 
 <mapper namespace="com.globalin.locker.mapper.AccountMapper">
 
+    <!-- 매핑 -->
     <resultMap id="AccountResultMap" type="com.globalin.locker.domain.Account">
-        <id property="id" column="id" />
-        <result property="username" column="username" />
-        <result property="password" column="password" />
-        <result property="role" column="role" />
-        <result property="email" column="email" />
-        <result property="phoneNumber" column="phone_number" />
-        <result property="isActive" column="is_active" />
-        <result property="createdAt" column="created_at" />
+        <id     property="id"           column="ID"/>
+        <result property="username"     column="USERNAME"/>
+        <result property="password"     column="PASSWORD"/>
+        <result property="role"         column="ROLE"/>
+        <result property="email"        column="EMAIL"/>
+        <result property="phoneNumber"  column="PHONE_NUMBER"/>
+        <result property="isActive"     column="IS_ACTIVE"/>
+        <result property="createdAt"    column="CREATED_AT"/>
     </resultMap>
 
-    <!-- Create -->
-    <insert id="insert" parameterType="com.globalin.locker.domain.Account" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO accounts (username, password, role, email, phone_number, is_active, created_at)
-        VALUES (#{username}, #{password}, #{role}, #{email}, #{phoneNumber}, #{isActive}, SYSTIMESTAMP)
+    <!-- 공통 컬럼 목록 -->
+    <sql id="Account_Columns">
+        ID, USERNAME, PASSWORD, ROLE, EMAIL, PHONE_NUMBER, IS_ACTIVE, CREATED_AT
+    </sql>
+
+    <!-- Read: 전체 -->
+    <select id="selectAll" resultMap="AccountResultMap">
+        SELECT <include refid="Account_Columns"/> FROM ACCOUNTS ORDER BY ID
+    </select>
+
+    <!-- Read: 단건 -->
+    <select id="selectById" parameterType="long" resultMap="AccountResultMap">
+        SELECT <include refid="Account_Columns"/> FROM ACCOUNTS WHERE ID = #{id}
+    </select>
+
+    <!-- username으로 조회 -->
+    <select id="selectByUsername" parameterType="string" resultMap="AccountResultMap">
+        SELECT <include refid="Account_Columns"/> FROM ACCOUNTS WHERE USERNAME = #{username}
+    </select>
+
+    <!-- Create: ID는 Oracle 12c+ IDENTITY(내부 ISEQ$)에 맡김.
+         created_at은 DEFAULT CURRENT_TIMESTAMP를 사용하므로 컬럼에서 제외 -->
+    <insert id="insert"
+            parameterType="com.globalin.locker.domain.Account"
+            useGeneratedKeys="true" keyProperty="id" keyColumn="ID">
+        INSERT INTO ACCOUNTS
+        (USERNAME, PASSWORD, ROLE, EMAIL, PHONE_NUMBER, IS_ACTIVE)
+        VALUES
+        (#{username}, #{password}, #{role}, #{email}, #{phoneNumber}, #{isActive})
     </insert>
 
-    <!-- Read all -->
-    <select id="selectAll" resultMap="AccountResultMap">
-        SELECT * FROM accounts ORDER BY id
-    </select>
-
-    <!-- Read by id -->
-    <select id="selectById" parameterType="int" resultMap="AccountResultMap">
-        SELECT * FROM accounts WHERE id = #{id}
-    </select>
-
-    <!-- Update -->
+    <!-- Update: 전체 컬럼 수정(필요 시 동적 <set>으로 바꿔도 됨) -->
     <update id="update" parameterType="com.globalin.locker.domain.Account">
-        UPDATE accounts
-        SET username = #{username},
-        password = #{password},
-        role = #{role},
-        email = #{email},
-        phone_number = #{phoneNumber},
-        is_active = #{isActive}
-        WHERE id = #{id}
+        UPDATE ACCOUNTS
+        SET USERNAME        = #{username},
+        PASSWORD            = #{password},
+        ROLE                = #{role},
+        EMAIL               = #{email},
+        PHONE_NUMBER        = #{phoneNumber},
+        IS_ACTIVE           = #{isActive}
+        WHERE ID            = #{id}
     </update>
 
     <!-- Delete -->
-    <delete id="delete" parameterType="int">
-        DELETE FROM accounts WHERE id = #{id}
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM ACCOUNTS WHERE ID = #{id}
     </delete>
 
 </mapper>
