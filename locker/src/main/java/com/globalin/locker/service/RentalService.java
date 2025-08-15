@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class RentalService {
+
     private final RentalMapper rentalMapper;
 
     public RentalService(RentalMapper rentalMapper) {

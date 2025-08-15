@@ -2,6 +2,7 @@ package com.globalin.locker.domain;
 
 import lombok.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Data
@@ -16,5 +17,5 @@ public class Locker {
     private Integer capacity;
     private Long price;
     private String status;
-    private LocalDateTime createdAt;
+    private Timestamp createdAt;
 }
