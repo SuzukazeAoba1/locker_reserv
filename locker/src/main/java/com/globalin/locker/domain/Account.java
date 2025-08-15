@@ -9,12 +9,13 @@ import java.sql.Timestamp;
 @AllArgsConstructor     // ✅ Lombok: 모든 필드를 매개변수로 받는 생성자 생성
 @Builder                // ✅ Lombok: 빌더 패턴 메서드 자동 생성 (객체 생성 시 가독성↑)
 public class Account {
-    private int id;
-    private String username;
-    private String password;
-    private String role;
-    private String email;
-    private String phoneNumber;
-    private String isActive;
-    private Timestamp createdAt;
+    private Long id;             // 시퀀스 자동 증가 PK
+    private String username;     // 계정명 (문자열)
+    private String password;     // 비밀번호 (문자열)
+    private String role;         // 계정 권한 (ADMIN / USER)
+    private String email;        // 이메일 (고정 형식)
+    private String phoneNumber;  // 전화번호 (고정 형식)
+    private String isActive;     // 계정 상태 (Y=활성, N=로그인 불가)
+    private Timestamp createdAt; // 계정 생성일시
+
 }

@@ -25,7 +25,6 @@
                 <th>ID</th>
                 <th>userId</th>
                 <th>lockerId</th>
-                <th>authorId</th>
                 <th>status</th>
                 <th>startTime</th>
                 <th>endTime</th>
@@ -35,24 +34,16 @@
             </thead>
             <tbody>
             <c:forEach var="a" items="${rentals}">
-                <tr>
+                  <tr>
                     <td>${a.id}</td>
                     <td>${a.userId}</td>
                     <td>${a.lockerId}</td>
                     <td>${a.status}</td>
-                    <td>
-                        <fmt:formatDate value="${a.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </td>
-                    <td>
-                        <fmt:formatDate value="${a.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </td>
-                    <td>
-                        <fmt:formatDate value="${a.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </td>
-                    <td>
-                        <fmt:formatDate value="${a.updatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </td>
-                </tr>
+                    <td><fmt:formatDate value="${a.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td><fmt:formatDate value="${a.endTime}"   pattern="yyyy-MM-dd HH:mm:ss"/></td> <!-- fix -->
+                    <td><fmt:formatDate value="${a.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td><fmt:formatDate value="${a.updatedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                  </tr>
             </c:forEach>
             </tbody>
         </table>

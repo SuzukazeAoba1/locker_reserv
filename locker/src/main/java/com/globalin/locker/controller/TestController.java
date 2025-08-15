@@ -100,7 +100,7 @@ public class TestController {
 
     // 수정 (전체 업데이트)
     @PutMapping(value = "/api/accounts/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Account> apiAccountsUpdate(@PathVariable int id, @RequestBody Account account) {
+    public ResponseEntity<Account> apiAccountsUpdate(@PathVariable long id, @RequestBody Account account) {
         account.setId(id);
         int rows = accountService.updateAccount(account);
         if (rows == 0) return ResponseEntity.notFound().build();
@@ -109,7 +109,7 @@ public class TestController {
 
     // 삭제
     @DeleteMapping("/api/accounts/{id}")
-    public ResponseEntity<Void> apiAccountsDelete(@PathVariable int id) {
+    public ResponseEntity<Void> apiAccountsDelete(@PathVariable long id) {
         int rows = accountService.deleteAccount(id);
         if (rows == 0) return ResponseEntity.notFound().build();
         return ResponseEntity.noContent().build();
