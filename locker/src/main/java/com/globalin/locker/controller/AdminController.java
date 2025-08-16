@@ -23,7 +23,7 @@ public class AdminController {
 
 
     @GetMapping("/lockers")
-    public String getLockersByLocation(@RequestParam("name") String location, Model model) {
+    public String getLockersByLocation(@RequestParam("location") String location, Model model) {
         List<Locker> lockers = lockerService.getLockersByLocation(location);
         model.addAttribute("lockers", lockers);
         return "admin/admin_lockers";

@@ -22,19 +22,21 @@
         ID, LOCATION, X, Y, CAPACITY, PRICE, STATUS, CREATED_AT
     </sql>
 
-    <!-- Read: 전체 -->
+    <!-- Read: 전체 (UI에 맞게 location, x, y 기준 정렬) -->
     <select id="selectAll" resultMap="LockerResultMap">
         SELECT <include refid="Locker_Columns"/>
         FROM LOCKERS
-        ORDER BY ID
+        ORDER BY LOCATION ASC, X ASC, Y ASC
     </select>
 
-    <!-- Read: 위치 기반 -->
-    <select id="selectByLocation" parameterType="string" resultType="com.globalin.locker.domain.Locker">
+    <!-- Read: 위치 기반 (x 오름차순, y 오름차순) -->
+    <select id="selectByLocation"
+            parameterType="string"
+            resultMap="LockerResultMap">
         SELECT <include refid="Locker_Columns"/>
         FROM LOCKERS
         WHERE LOCATION = #{location}
-        ORDER BY X, Y
+        ORDER BY X ASC, Y ASC
     </select>
 
     <!-- Read: 단건 (PK) -->
