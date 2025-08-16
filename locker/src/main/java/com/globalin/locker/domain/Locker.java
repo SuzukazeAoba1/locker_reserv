@@ -15,7 +15,7 @@ public class Locker {
     private Long x;              // 열 위치 (가로 방향, 1=A열, 2=B열, 3=C열 ...)
     private Long y;              // 층 위치 (세로 방향, 1=아래층, 2=중간층, 3=위층)
     private Integer capacity;    // 크기 구분 (1=소, 2=중, 3=대)
-    private Long price;          // 시간당 가격 (예: 500엔)
-    private Long status;         // 상태 (1=사용 가능, 2=예약 됨, 3=사용 중, 4=점검 중)
+    private Long price;          // 하루당 이용 가격 (예: 500엔)
+    private Long status;         // 상태 (1=사용 가능, 2=예약 됨, 3=사용 중, 4=점검 중, 5=빈 위치)
     private Timestamp createdAt; // 생성일시
 }

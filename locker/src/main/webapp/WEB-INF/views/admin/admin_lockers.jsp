@@ -11,7 +11,7 @@
         grid-template-columns: repeat(11, 1fr); /* x=1~11 */
         gap: 8px;
         max-width: 1200px;
-        margin: 20px auto;
+        margin: 0px auto;
     }
     .locker-btn {
         width: 100%;
@@ -21,6 +21,7 @@
         cursor: pointer;
     }
     /* 크기별 높이 */
+    .size-4 { height: 100px; } /* 대 */
     .size-3 { height: 100px; } /* 대 */
     .size-2 { height: 60px; }  /* 중 */
     .size-1 { height: 40px; }  /* 소 */
@@ -40,8 +41,9 @@
 </head>
 <body>
 
-<h2>텐진역 1층 코인로커</h2>
-
+<c:forEach var="l" items="${lockers}" begin="0" end="0">
+  <h2>${l.location} コインロッカー</h2>
+</c:forEach>
 
 <div class="locker-grid">
   <c:set var="prevX" value="-1"/>
