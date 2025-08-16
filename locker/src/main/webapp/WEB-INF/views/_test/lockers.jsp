@@ -35,7 +35,7 @@
             <tbody>
             <c:forEach var="a" items="${lockers}">
                 <tr>
-                    <td>${a.id}</td>
+                    <td>${a.lockerCode}</td>
                     <td>${a.location}</td>
                     <td>${a.x}</td>
                     <td>${a.y}</td>

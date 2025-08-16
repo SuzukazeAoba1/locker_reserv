@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -86,6 +87,10 @@
 
    .col.scaled-60 { height: calc(var(--col-h) * .6); }
 
+   a.locker-btn {
+     text-decoration: none; /* 밑줄 제거 */
+   }
+
   /* 크기별 높이 (capacity) */
   .size-1{ flex: 3 0 0; }
   .size-2{ flex: 5 0 0; }
@@ -101,6 +106,8 @@
 </style>
 </head>
 <body>
+
+<c:url var="lockerDetailBase" value="/admin/lockers"/>
 
 <!-- 위치 선택 링크 -->
 <nav class="location-nav">
@@ -156,9 +163,10 @@
       </c:if>
 
       <!-- 버튼(칸) -->
-      <button class="locker-btn size-${l.capacity} status-${l.status}" data-id="${l.id}">
-        ${l.x}-${l.y}
-      </button>
+      <a class="locker-btn size-${l.capacity} status-${l.status}"
+         href="${lockerDetailBase}/${l.lockerCode}?location=${fn:escapeXml(l.location)}">
+        ${l.lockerCode}
+      </a>
 
       <!-- 마지막 아이템이면 마지막 열과 행 닫기 -->
       <c:if test="${st.last}">

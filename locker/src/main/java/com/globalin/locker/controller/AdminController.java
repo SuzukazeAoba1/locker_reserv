@@ -21,12 +21,22 @@ public class AdminController {
         this.lockerService = lockerService;
     }
 
-
     @GetMapping("/lockers")
     public String getLockersByLocation(@RequestParam("location") String location, Model model) {
         List<Locker> lockers = lockerService.getLockersByLocation(location);
         model.addAttribute("lockers", lockers);
         return "admin/admin_lockers";
+    }
+
+    @GetMapping("/lockers/{code}")
+    public String detail(@PathVariable String code,
+                         @RequestParam(required = false) String location,
+                         Model model) {
+        Locker locker = lockerService.getLockersByCode(code);
+        model.addAttribute("locker", locker);
+        // 목록으로 돌아갈 때 사용할 location (쿼리 없으면 DB 값 사용)
+        model.addAttribute("backLocation", location != null ? location : locker.getLocation());
+        return "admin/admin_lockers_info";
     }
 
 }

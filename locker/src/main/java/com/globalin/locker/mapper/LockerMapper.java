@@ -18,6 +18,7 @@ public interface LockerMapper {
 
     List<Locker> selectAll();
     Locker selectById(@Param("id") long id);
+    Locker selectByCode(@Param("lockerCode") String lockerCode);
     List<Locker> selectPage(@Param("offset") int offset,
                             @Param("limit") int limit);
 

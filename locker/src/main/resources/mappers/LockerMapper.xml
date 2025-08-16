@@ -15,11 +15,12 @@
         <result property="price"     column="PRICE"/>
         <result property="status"    column="STATUS"/>
         <result property="createdAt" column="CREATED_AT"/>
+        <result property="lockerCode" column="LOCKER_CODE"/>
     </resultMap>
 
     <!-- 공통 컬럼 목록 -->
     <sql id="Locker_Columns">
-        ID, LOCATION, X, Y, CAPACITY, PRICE, STATUS, CREATED_AT
+        ID, LOCATION, X, Y, CAPACITY, PRICE, STATUS, CREATED_AT, LOCKER_CODE
     </sql>
 
     <!-- Read: 전체 (UI에 맞게 location, x, y 기준 정렬) -->
@@ -39,11 +40,16 @@
         ORDER BY X ASC, Y ASC
     </select>
 
-    <!-- Read: 단건 (PK) -->
     <select id="selectById" parameterType="long" resultMap="LockerResultMap">
         SELECT <include refid="Locker_Columns"/>
         FROM LOCKERS
         WHERE ID = #{id}
+    </select>
+
+    <select id="selectByCode" parameterType="string" resultMap="LockerResultMap">
+        SELECT <include refid="Locker_Columns"/>
+        FROM LOCKERS
+        WHERE LOCKER_CODE = #{lockerCode}
     </select>
 
     <!-- Read: 페이징 (Oracle 12c+) -->

@@ -21,6 +21,10 @@ public class LockerService {
     }
 
     //위치 기반 라커 검색
+    public Locker getLockersByCode(String Code) {
+        return lockerMapper.selectByCode(Code);
+    }
+    //위치 기반 라커 검색
     public List<Locker> getLockersByLocation(String location) {
         return lockerMapper.selectByLocation(location);
     }

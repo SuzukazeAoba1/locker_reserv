@@ -18,4 +18,5 @@ public class Locker {
     private Long price;          // 하루당 이용 가격 (예: 500엔)
     private Long status;         // 상태 (1=사용 가능, 2=예약 됨, 3=사용 중, 4=점검 중, 5=빈 위치)
     private Timestamp createdAt; // 생성일시
+    private String lockerCode;   // 로커 고유 번호
 }
