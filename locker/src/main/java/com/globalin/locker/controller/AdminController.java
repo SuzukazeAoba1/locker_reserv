@@ -63,9 +63,22 @@ public class AdminController {
                          Model model) {
         Locker locker = lockerService.getLockersByCode(code);
         model.addAttribute("locker", locker);
-        // 목록으로 돌아갈 때 사용할 location (쿼리 없으면 DB 값 사용)
         model.addAttribute("backLocation", location != null ? location : locker.getLocation());
         return "admin/admin_lockers_info";
+    }
+
+    @PostMapping("/lockers/{code}/start")
+    public String start(@PathVariable Long code,
+                        @RequestParam String location,
+                        RedirectAttributes ra) {
+        try {
+            Long rid = rentalService.reserveOrCancel(code, null, RentalService.Action.START);
+            ra.addFlashAttribute("msg", "使用を開始しました（rentalId=" + rid + "）");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "使用開始に失敗しました： " + e.getMessage());
+        }
+        return "redirect:/admin/lockers/" + code + "?location=" +
+                UriUtils.encode(location, StandardCharsets.UTF_8);
     }
 
     @PostMapping("/lockers/{code}/toggle")

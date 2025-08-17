@@ -93,11 +93,18 @@ body {padding-left: 10px;}
   </c:when>
 
   <c:when test="${locker.status == 2}">
-    <form method="post" action="${pageContext.request.contextPath}/admin/lockers/${locker.lockerCode}/cancel">
-      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-      <input type="hidden" name="location" value="${backLocation}"/>
-      <button type="submit" class="btn-big">予約をキャンセル</button>
-    </form>
+    <div class="actions-row">
+      <form method="post" action="${pageContext.request.contextPath}/admin/lockers/${locker.lockerCode}/start">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="hidden" name="location" value="${backLocation}"/>
+        <button type="submit" class="btn-big">使用開始</button>
+      </form>
+      <form method="post" action="${pageContext.request.contextPath}/admin/lockers/${locker.lockerCode}/cancel">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <input type="hidden" name="location" value="${backLocation}"/>
+        <button type="submit" class="btn-big">予約をキャンセル</button>
+      </form>
+    </div>
   </c:when>
 
   <c:when test="${locker.status == 3}">

@@ -32,6 +32,7 @@ public interface RentalMapper {
     );
 
     Long findLatestActiveIdByLocker(@Param("lockerCode") Long lockerCode);
+    Long findLatestReservationIdByLocker(@Param("lockerCode") Long lockerCode);
 
     int insertReservation(Map<String, Object> p);
 
