@@ -64,6 +64,12 @@ public class AdminController {
         Locker locker = lockerService.getLockersByCode(code);
         model.addAttribute("locker", locker);
         model.addAttribute("backLocation", location != null ? location : locker.getLocation());
+
+        // 👉 예약중(2) 또는 사용중(3)일 때만 조회해서 모델에 추가
+        if (locker.getStatus() != null && (locker.getStatus() == 2L || locker.getStatus() == 3L)) {
+            Rental active = rentalService.findLatestActiveByLocker(code); // 주입 필요
+            model.addAttribute("activeRental", active);
+        }
         return "admin/admin_lockers_info";
     }
 

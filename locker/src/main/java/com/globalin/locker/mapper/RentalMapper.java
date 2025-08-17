@@ -16,6 +16,7 @@ public interface RentalMapper {
     List<Rental> selectAll();
 
     Rental selectById(@Param("id") long id);
+    Rental findLatestActiveByLocker(@Param("lockerCode") Long lockerCode);
 
     List<Rental> selectByUserId(@Param("userId") long userId);
 

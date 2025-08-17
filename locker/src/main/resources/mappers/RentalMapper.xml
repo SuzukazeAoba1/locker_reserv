@@ -63,6 +63,16 @@
         FETCH FIRST 1 ROWS ONLY
     </select>
 
+    <!-- 최신 활성(予約=1, 使用中=2) 1건: 상세 표시에 필요 -->
+    <select id="findLatestActiveByLocker" parameterType="long" resultMap="RentalResultMap">
+        SELECT <include refid="Rental_Columns"/>
+        FROM RENTALS
+        WHERE LOCKER_CODE = #{lockerCode}
+        AND STATUS IN (1, 2)
+        ORDER BY ID DESC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
     <select id="findLatestReservationIdByLocker" resultType="long">
         SELECT ID FROM (
         SELECT ID FROM RENTALS
@@ -90,14 +100,15 @@
 
     <!-- 예약 생성: STATUS=1(예약됨), 시작=지금, 종료=+7일 (RETURNING으로 PK 회수) -->
     <insert id="insertReservation" parameterType="map">
-        <!-- 시퀀스 선조회: 생성될 ID를 p.id에 담아줌 -->
-        <selectKey keyProperty="id" resultType="long" order="BEFORE">
-            SELECT "USER1"."ISEQ$$_112242".NEXTVAL FROM DUAL
+        INSERT INTO RENTALS (
+        USER_ID, LOCKER_CODE, START_TIME, END_TIME, STATUS
+        ) VALUES (
+        #{userId}, #{lockerCode},
+        SYSTIMESTAMP, SYSTIMESTAMP + INTERVAL '7' DAY, 1
+        )
+        <selectKey keyProperty="id" order="AFTER" resultType="long">
+            SELECT "USER1"."ISEQ$$_112242".CURRVAL FROM DUAL
         </selectKey>
-
-        INSERT INTO RENTALS (ID, USER_ID, LOCKER_CODE, START_TIME, END_TIME, STATUS)
-        VALUES (#{id}, #{userId}, #{lockerCode},
-        SYSTIMESTAMP, SYSTIMESTAMP + INTERVAL '7' DAY, 1)
     </insert>
 
 

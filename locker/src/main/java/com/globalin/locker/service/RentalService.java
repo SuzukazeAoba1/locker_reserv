@@ -22,6 +22,7 @@ public class RentalService {
     private final LockerMapper lockerMapper;
     private final RentalMapper rentalMapper;
 
+
     public enum Action { RESERVE, START, CANCEL }
 
     @Transactional
@@ -94,6 +95,11 @@ public class RentalService {
     public List<Rental> getAllRentals() {
         return rentalMapper.selectAll();
     }
+
+    public Rental findLatestActiveByLocker(Long code) {
+        return rentalMapper.findLatestActiveByLocker(code);
+    }
+
 
     // ========================================
     // Rentals: Postman 테스트용 단순 컬럼 반환
