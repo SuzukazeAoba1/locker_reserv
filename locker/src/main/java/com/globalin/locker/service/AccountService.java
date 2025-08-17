@@ -2,18 +2,17 @@ package com.globalin.locker.service;
 
 import com.globalin.locker.domain.Account;
 import com.globalin.locker.mapper.AccountMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AccountService {
 
     private final AccountMapper accountMapper;
 
-    public AccountService(AccountMapper accountMapper) {
-        this.accountMapper = accountMapper;
-    }
 
     // 리스트 모두 출력
     public List<Account> getAllAccounts() {

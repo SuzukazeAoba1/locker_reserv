@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 // @Mapper는 MyBatis 매퍼 인터페이스임을 명시
@@ -13,13 +14,30 @@ import java.util.List;
 public interface RentalMapper {
 
     List<Rental> selectAll();
+
     Rental selectById(@Param("id") long id);
+
     List<Rental> selectByUserId(@Param("userId") long userId);
-    List<Rental> selectByLockerId(@Param("lockerId") long lockerId);
+
+    List<Rental> selectByLockerCode(@Param("lockerCode") long lockerCode);
+
     List<Rental> selectPage(@Param("offset") int offset,
                             @Param("limit") int limit);
 
+    int updateRentalStatusOnly(
+            @Param("rentalId")      Long rentalId,
+            @Param("toStatus")      Long toStatus,
+            @Param("fromStatus")    Long fromStatus,       // null OK
+            @Param("fromStatusList") List<Long> fromStatusList // null OK
+    );
+
+    Long findLatestActiveIdByLocker(@Param("lockerCode") Long lockerCode);
+
+    int insertReservation(Map<String, Object> p);
+
     int insert(Rental rental);
+
     int update(Rental rental);
+
     int deleteById(@Param("id") long id);
 }

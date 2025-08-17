@@ -4,16 +4,14 @@ import com.globalin.locker.domain.Notice;
 import com.globalin.locker.mapper.NoticeMapper;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class NoticeService {
 
     private final NoticeMapper noticeMapper;
-
-    public NoticeService(NoticeMapper noticeMapper) {
-        this.noticeMapper = noticeMapper;
-    }
 
     // 리스트 모두 출력
     public List<Notice> getAllNotices() {

@@ -18,11 +18,19 @@ public interface LockerMapper {
 
     List<Locker> selectAll();
     Locker selectById(@Param("id") long id);
-    Locker selectByCode(@Param("lockerCode") String lockerCode);
+    Locker selectByCode(@Param("lockerCode") Long lockerCode);
     List<Locker> selectPage(@Param("offset") int offset,
                             @Param("limit") int limit);
 
+    int updateLockerStatus(
+            @Param("lockerCode") Long lockerCode,
+            @Param("toStatus")   Long toStatus,
+            @Param("fromStatus") Long fromStatus,       // null 허용
+            @Param("requireNoActive") boolean requireNoActive
+    );
+
+    int toggleAvailability(@Param("lockerCode") Long lockerCode);
     int insert(Locker locker);
-    int update(Locker locker);
+    int updateLockerByCode(Locker locker);
     int deleteById(@Param("id") long id);
 }

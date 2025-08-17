@@ -32,6 +32,7 @@ public class TestController {
         return "_test/lockers";
     }
 
+
     // ========================================
     // Accounts: Postman 테스트용 JSON CRUD
     // ========================================
@@ -108,22 +109,10 @@ public class TestController {
         return (l != null) ? ResponseEntity.ok(l) : ResponseEntity.notFound().build();
     }
 
-    // 생성
-    @PostMapping(value = "/api/lockers", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Locker> apiLockersCreate(@RequestBody Locker locker,
-                                                   org.springframework.web.util.UriComponentsBuilder ucb) {
-        int rows = lockerService.createLocker(locker); // useGeneratedKeys=true 면 id 세팅
-        if (rows == 1 && locker.getId() != 0) {
-            var location = ucb.path("/test/api/lockers/{id}").buildAndExpand(locker.getId()).toUri();
-            return ResponseEntity.created(location).body(locker);
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-
     // 수정
     @PutMapping(value = "/api/lockers/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Locker> apiLockersUpdate(@PathVariable long id, @RequestBody Locker locker) {
-        locker.setId(id);
+        locker.setLockerCode(id);
         int rows = lockerService.updateLocker(locker);
         if (rows == 0) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(locker);

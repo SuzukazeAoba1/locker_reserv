@@ -15,6 +15,15 @@
     </style>
 </head>
 <body>
+<div style="text-align:left; margin-top:1rem;">
+  <form action="${pageContext.request.contextPath}/" method="get">
+    <button type="submit"
+            style="width:200px; height:50px; margin:10px; font-size:20px;">
+      ルートへ戻る
+    </button>
+  </form>
+</div>
+
 <h2>Lockers</h2>
 
 <c:choose>

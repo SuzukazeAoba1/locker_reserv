@@ -15,6 +15,15 @@
     </style>
 </head>
 <body>
+<div style="text-align:left; margin-top:1rem;">
+  <form action="${pageContext.request.contextPath}/" method="get">
+    <button type="submit"
+            style="width:200px; height:50px; margin:10px; font-size:20px;">
+      ルートへ戻る
+    </button>
+  </form>
+</div>
+
 <h2>rentals</h2>
 
 <c:choose>
@@ -37,7 +46,7 @@
                   <tr>
                     <td>${a.id}</td>
                     <td>${a.userId}</td>
-                    <td>${a.lockerId}</td>
+                    <td>${a.lockerCode}</td>
                     <td>${a.status}</td>
                     <td><fmt:formatDate value="${a.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td><fmt:formatDate value="${a.endTime}"   pattern="yyyy-MM-dd HH:mm:ss"/></td>

@@ -7,7 +7,7 @@
 
     <!-- ResultMap -->
     <resultMap id="LockerResultMap" type="com.globalin.locker.domain.Locker">
-        <id     property="id"        column="ID"/>
+        <result property="lockerCode" column="LOCKER_CODE"/>
         <result property="location"  column="LOCATION"/>
         <result property="x"         column="X"/>
         <result property="y"         column="Y"/>
@@ -15,19 +15,18 @@
         <result property="price"     column="PRICE"/>
         <result property="status"    column="STATUS"/>
         <result property="createdAt" column="CREATED_AT"/>
-        <result property="lockerCode" column="LOCKER_CODE"/>
     </resultMap>
 
     <!-- 공통 컬럼 목록 -->
     <sql id="Locker_Columns">
-        ID, LOCATION, X, Y, CAPACITY, PRICE, STATUS, CREATED_AT, LOCKER_CODE
+        LOCKER_CODE, LOCATION, X, Y, CAPACITY, PRICE, STATUS, CREATED_AT
     </sql>
 
-    <!-- Read: 전체 (UI에 맞게 location, x, y 기준 정렬) -->
+    <!-- Read: 전체 -->
     <select id="selectAll" resultMap="LockerResultMap">
         SELECT <include refid="Locker_Columns"/>
         FROM LOCKERS
-        ORDER BY LOCATION ASC, X ASC, Y ASC
+        ORDER BY LOCKER_CODE
     </select>
 
     <!-- Read: 위치 기반 (x 오름차순, y 오름차순) -->
@@ -37,20 +36,42 @@
         SELECT <include refid="Locker_Columns"/>
         FROM LOCKERS
         WHERE LOCATION = #{location}
-        ORDER BY X ASC, Y ASC
+        ORDER BY LOCKER_CODE
     </select>
 
-    <select id="selectById" parameterType="long" resultMap="LockerResultMap">
-        SELECT <include refid="Locker_Columns"/>
-        FROM LOCKERS
-        WHERE ID = #{id}
-    </select>
-
-    <select id="selectByCode" parameterType="string" resultMap="LockerResultMap">
+    <!-- Read: code 기반 -->
+    <select id="selectByCode" parameterType="long" resultMap="LockerResultMap">
         SELECT <include refid="Locker_Columns"/>
         FROM LOCKERS
         WHERE LOCKER_CODE = #{lockerCode}
     </select>
+
+    <!-- LOCKERS.STATUS 전용 통합 업데이트 -->
+    <update id="updateLockerStatus" parameterType="map">
+        UPDATE LOCKERS l
+        SET l.STATUS = #{toStatus}
+        WHERE l.LOCKER_CODE = #{lockerCode}
+        <if test="fromStatus != null">
+            AND l.STATUS = #{fromStatus}
+        </if>
+        <if test="requireNoActive == true">
+            AND NOT EXISTS (
+            SELECT 1 FROM RENTALS r
+            WHERE r.LOCKER_CODE = l.LOCKER_CODE
+            AND r.STATUS IN (1,2)
+            )
+        </if>
+    </update>
+
+    <!-- 상태 전환 토클 (사용 가능 <-> 수리 중) -->
+    <update id="toggleAvailability" parameterType="long">
+        UPDATE LOCKERS
+        SET STATUS = CASE WHEN STATUS = 1 THEN 4
+        WHEN STATUS = 4 THEN 1
+        END
+        WHERE LOCKER_CODE = #{lockerCode}
+        AND STATUS IN (1, 4)
+    </update>
 
     <!-- Read: 페이징 (Oracle 12c+) -->
     <select id="selectPage" resultMap="LockerResultMap">
@@ -68,16 +89,11 @@
         VALUES (#{location}, #{x}, #{y}, #{capacity}, #{price}, #{status})
     </insert>
 
-    <!-- Update: 정적 전체 업데이트 -->
-    <update id="update" parameterType="com.globalin.locker.domain.Locker">
+    <!-- 코드 기반 상태 업데이트 -->
+    <update id="updateLockerByCode" parameterType="com.globalin.locker.domain.Locker">
         UPDATE LOCKERS
-        SET LOCATION = #{location},
-        X        = #{x},
-        Y        = #{y},
-        CAPACITY = #{capacity},
-        PRICE    = #{price},
-        STATUS   = #{status}
-        WHERE ID = #{id}
+        SET LOCATION=#{location}, X=#{x}, Y=#{y}, CAPACITY=#{capacity}, STATUS=#{status}
+        WHERE LOCKER_CODE = #{lockerCode}
     </update>
 
     <!-- Delete: 물리 삭제 -->

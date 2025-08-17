@@ -10,9 +10,15 @@
 
 <style>
 
-  .location-nav {
-    padding: 16px 20px;
-  }
+    hr.divider {
+      border: 0;
+      height: 1px;
+      background: #e5e7eb;
+      margin: 8px 20px 16px; /* 위 8px, 좌우 20px, 아래 16px */
+    }
+
+  .h-heading { margin: 0 20px 24px; }
+  .location-nav { padding: 12px 20px 8px; }
 
   .location-nav ul{
     display:flex;
@@ -34,7 +40,7 @@
   }
   .location-nav a:hover{ background:#eee; }
 
-  /* ----- 레이아웃 공통 ----- */
+
   body{ margin:0; }
 
   /* 창이 좁아지면 가로 스크롤 (자동 줄바꿈 금지 유지) */
@@ -107,6 +113,17 @@
 </head>
 <body>
 
+<div style="text-align:left; margin-top:1rem;">
+  <form action="${pageContext.request.contextPath}/" method="get">
+    <button type="submit"
+            style="width:200px; height:50px; margin:10px; font-size:20px;">
+      ルートへ戻る
+    </button>
+  </form>
+</div>
+
+<hr class="divider"/>
+
 <c:url var="lockerDetailBase" value="/admin/lockers"/>
 
 <!-- 위치 선택 링크 -->
@@ -130,9 +147,10 @@
   </ul>
 </nav>
 
-<!-- 제목: 첫 아이템의 location 사용 (테스트용) -->
+<hr class="divider"/>
+
 <c:forEach var="l" items="${lockers}" begin="0" end="0">
-  <h2 style="margin:0px 30px 50px;">${l.location} コインロッカー</h2>
+  <h2 class="h-heading">${l.location} コインロッカー</h2>
 </c:forEach>
 
 <div class="locker-wrap">
@@ -177,6 +195,7 @@
     </c:forEach>
   </div>
 </div>
+<hr class="divider"/>
 <script>
 (function(){
   document.querySelectorAll('.col').forEach(col => {

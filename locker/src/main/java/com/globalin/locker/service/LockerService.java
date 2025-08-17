@@ -4,29 +4,34 @@ import com.globalin.locker.domain.Locker;
 import com.globalin.locker.mapper.LockerMapper;
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class LockerService {
 
     private final LockerMapper lockerMapper;
-
-    public LockerService(LockerMapper lockerMapper) {
-        this.lockerMapper = lockerMapper;
-    }
 
     // 리스트 모두 출력
     public List<Locker> getAllLockers() {
         return lockerMapper.selectAll();
     }
 
-    //위치 기반 라커 검색
-    public Locker getLockersByCode(String Code) {
+    //번호 기반 라커 검색
+    public Locker getLockersByCode(Long Code) {
         return lockerMapper.selectByCode(Code);
     }
+
     //위치 기반 라커 검색
     public List<Locker> getLockersByLocation(String location) {
         return lockerMapper.selectByLocation(location);
+    }
+
+    @Transactional
+    public boolean toggleAvailability(Long lockerCode) {
+        return lockerMapper.toggleAvailability(lockerCode) == 1;
     }
 
     // ========================================
@@ -41,13 +46,10 @@ public class LockerService {
         return lockerMapper.selectPage(offset, limit);
     }
 
-    // Create / Update / Delete
-    public int createLocker(Locker locker) {
-        return lockerMapper.insert(locker);
-    }
+    // Update / Delete
 
     public int updateLocker(Locker locker) {
-        return lockerMapper.update(locker);
+        return lockerMapper.updateLockerByCode(locker);
     }
 
     public int deleteLocker(long id) {

@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 public class Rental {
     private Long id;             // 시퀀스 자동 증가 PK
     private Long userId;         // 사용자 ID (Accounts.id 참조)
-    private Long lockerId;       // 락커 ID (Lockers.id 참조)
+    private Long lockerCode;       // 락커 ID (Lockers.lockerCode 참조)
     private Timestamp startTime; // 사용 시작 시간
     private Timestamp endTime;   // 사용 종료 시간
     private Long status;         // 상태 (1=예약 완료, 2=사용 중, 3=사용 종료, 4=예약 취소)

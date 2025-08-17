@@ -9,7 +9,7 @@
     <resultMap id="RentalResultMap" type="com.globalin.locker.domain.Rental">
         <id     property="id"        column="ID"/>
         <result property="userId"    column="USER_ID"/>
-        <result property="lockerId"  column="LOCKER_ID"/>
+        <result property="lockerCode"  column="LOCKER_CODE"/>
         <result property="startTime" column="START_TIME"/>
         <result property="endTime"   column="END_TIME"/>
         <result property="status"    column="STATUS"/>
@@ -19,7 +19,7 @@
 
     <!-- 공통 컬럼 목록 -->
     <sql id="Rental_Columns">
-        ID, USER_ID, LOCKER_ID, START_TIME, END_TIME, STATUS, CREATED_AT, UPDATED_AT
+        ID, USER_ID, LOCKER_CODE, START_TIME, END_TIME, STATUS, CREATED_AT, UPDATED_AT
     </sql>
 
     <!-- Read: 전체 -->
@@ -28,6 +28,7 @@
         FROM RENTALS
         ORDER BY ID
     </select>
+
 
     <!-- Read: 단건 (PK) -->
     <select id="selectById" parameterType="long" resultMap="RentalResultMap">
@@ -45,12 +46,52 @@
     </select>
 
     <!-- Read: 락커별 -->
-    <select id="selectByLockerId" parameterType="long" resultMap="RentalResultMap">
+    <select id="selectByLockerCode" parameterType="long" resultMap="RentalResultMap">
         SELECT <include refid="Rental_Columns"/>
         FROM RENTALS
-        WHERE LOCKER_ID = #{lockerId}
+        WHERE LOCKER_Code = #{lockerCode}
         ORDER BY ID DESC
     </select>
+
+    <!-- 최신 예약 1건 찾기 -->
+    <select id="findLatestActiveIdByLocker" parameterType="long" resultType="long">
+        SELECT ID
+        FROM RENTALS
+        WHERE LOCKER_CODE = #{lockerCode}
+        AND STATUS IN (1, 2)
+        ORDER BY ID DESC
+        FETCH FIRST 1 ROWS ONLY
+    </select>
+
+    <!-- target: RENTALS.STATUS, UPDATED_AT 만 변경 -->
+    <update id="updateRentalStatusOnly">
+        UPDATE RENTALS
+        SET STATUS = #{toStatus},
+        UPDATED_AT = SYSTIMESTAMP
+        WHERE ID = #{rentalId}
+        <if test="fromStatus != null">
+            AND STATUS = #{fromStatus}
+        </if>
+        <if test="fromStatusList != null and fromStatusList.size() &gt; 0">
+            AND STATUS IN
+            <foreach collection="fromStatusList" item="st" open="(" separator="," close=")">
+                #{st}
+            </foreach>
+        </if>
+    </update>
+
+    <!-- 예약 생성: STATUS=1(예약됨), 시작=지금, 종료=+7일 (RETURNING으로 PK 회수) -->
+    <insert id="insertReservation" parameterType="map">
+        <!-- 시퀀스 선조회: 생성될 ID를 p.id에 담아줌 -->
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT "USER1"."ISEQ$$_112242".NEXTVAL FROM DUAL
+        </selectKey>
+
+        INSERT INTO RENTALS (ID, USER_ID, LOCKER_CODE, START_TIME, END_TIME, STATUS)
+        VALUES (#{id}, #{userId}, #{lockerCode},
+        SYSTIMESTAMP, SYSTIMESTAMP + INTERVAL '7' DAY, 1)
+    </insert>
+
 
     <!-- 페이징 (Oracle 12c+) -->
     <select id="selectPage" resultMap="RentalResultMap">
