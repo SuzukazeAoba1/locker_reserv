@@ -21,4 +21,5 @@ public interface NoticeMapper {
     int insert(Notice notice);
     int update(Notice notice);
     int deleteById(@Param("id") long id);
+
 }

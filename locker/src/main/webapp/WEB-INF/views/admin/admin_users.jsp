@@ -42,17 +42,19 @@
             </thead>
             <tbody>
             <c:forEach var="a" items="${accounts}">
-                <tr>
-                    <td>${a.id}</td>
-                    <td>${a.username}</td>
-                    <td>${a.role}</td>
-                    <td>${a.email}</td>
-                    <td>${a.phoneNumber}</td>
-                    <td>${a.isActive}</td>
-                    <td>
-                        <fmt:formatDate value="${a.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </td>
-                </tr>
+              <tr>
+                <td>${a.id}</td>
+                <td>
+                  <a href="${pageContext.request.contextPath}/admin/accounts/${a.id}/edit">
+                    ${a.username}
+                  </a>
+                </td>
+                <td>${a.role}</td>
+                <td>${a.email}</td>
+                <td>${a.phoneNumber}</td>
+                <td>${a.isActive}</td>
+                <td><fmt:formatDate value="${a.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+              </tr>
             </c:forEach>
             </tbody>
         </table>

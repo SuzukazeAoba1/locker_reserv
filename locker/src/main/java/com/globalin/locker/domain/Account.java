@@ -17,5 +17,4 @@ public class Account {
     private String phoneNumber;  // 전화번호 (고정 형식)
     private String isActive;     // 계정 상태 (Y=활성, N=로그인 불가)
     private Timestamp createdAt; // 계정 생성일시
-
 }

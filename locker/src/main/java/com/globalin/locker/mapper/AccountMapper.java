@@ -18,4 +18,5 @@ public interface AccountMapper {
     int insert(Account account);   // useGeneratedKeys=true면 account.id 자동 세팅
     int update(Account account);
     int deleteById(long id);
+    int updateAccount(Account a);
 }

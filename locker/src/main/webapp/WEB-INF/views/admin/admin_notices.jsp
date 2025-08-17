@@ -42,12 +42,17 @@
             <c:forEach var="a" items="${notices}">
                 <tr>
                     <td>${a.id}</td>
-                    <td>${a.title}</td>
+                    <td>
+                        <c:url var="editUrl" value="/admin/notices/${a.id}/edit">
+                            <c:param name="back" value="/admin/notices"/>
+                        </c:url>
+                        <a href="${pageContext.request.contextPath}${editUrl}">
+                            ${a.title}
+                        </a>
+                    </td>
                     <td>${a.content}</td>
                     <td>${a.authorId}</td>
-                    <td>
-                        <fmt:formatDate value="${a.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/>
-                    </td>
+                    <td><fmt:formatDate value="${a.createdAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 </tr>
             </c:forEach>
             </tbody>

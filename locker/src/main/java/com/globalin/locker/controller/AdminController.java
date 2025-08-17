@@ -9,9 +9,11 @@ import com.globalin.locker.service.LockerService;
 import com.globalin.locker.service.NoticeService;
 import com.globalin.locker.service.RentalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 
@@ -127,5 +129,88 @@ public class AdminController {
         return "redirect:/admin/lockers/" + code + "?location=" +
                 UriUtils.encode(location, StandardCharsets.UTF_8);
     }
+
+    // 폼 표시
+    @GetMapping("/accounts/{id}/edit")
+    public String accountsEditForm(@PathVariable Long id,
+                           @RequestParam(required = false) String back,
+                           Model model) {
+        Account account = accountService.getById(id);
+        if (account == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Account not found");
+        }
+        model.addAttribute("account", account);
+        // 롤 옵션(예시)
+        model.addAttribute("roles", List.of("ADMIN", "USER"));
+        // 저장 후 돌아갈 목록 URL
+        model.addAttribute("backUrl", back != null ? back : "/admin/accounts");
+        return "admin/admin_users_edit";
+    }
+
+    // 폼 저장
+    @PostMapping("/accounts/{id}/edit")
+    public String accountsEditSubmit(@PathVariable Long id,
+                             @RequestParam String username,
+                             @RequestParam String role,
+                             @RequestParam(required = false) String email,
+                             @RequestParam(required = false) String phoneNumber,
+                             @RequestParam(defaultValue = "N") String isActive,
+                             @RequestParam String backUrl,
+                             RedirectAttributes ra) {
+
+
+
+        if (!"ADMIN".equalsIgnoreCase(role) && !"USER".equalsIgnoreCase(role)) {
+            ra.addFlashAttribute("error", "ROLEは ADMIN / USER のみ許可されます。");
+            return "redirect:" + backUrl;
+        }
+
+        Account updated = new Account();
+        updated.setId(id);
+        updated.setUsername(username);
+        updated.setRole(role.toUpperCase());
+        updated.setEmail(email);
+        updated.setPhoneNumber(phoneNumber);
+        updated.setIsActive("Y".equalsIgnoreCase(isActive) ? "Y" : "N"); // 정규화
+
+        accountService.updateAccount(updated);
+        ra.addFlashAttribute("msg", "アカウントを更新しました。");
+        return "redirect:" + backUrl;
+    }
+
+
+    @GetMapping("/notices/{id}/edit")
+    public String noticesEditForm(@PathVariable Long id,
+                           @RequestParam(required = false) String back,
+                           Model model) {
+        Notice notice = noticeService.getNoticeById(id);
+        if (notice == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Notice not found");
+        }
+        model.addAttribute("notice", notice);
+        model.addAttribute("backUrl", (back != null && !back.isBlank()) ? back : "/admin/notices");
+        return "admin/admin_notices_edit";
+    }
+
+    // 저장
+    @PostMapping("/notices/{id}/edit")
+    public String noticesEditSubmit(@PathVariable Long id,
+                             @RequestParam String title,
+                             @RequestParam String content,
+                             @RequestParam Long authorId,
+                             @RequestParam String backUrl,
+                             RedirectAttributes ra) {
+        Notice updated = new Notice();
+        updated.setId(id);
+        updated.setTitle(title);
+        updated.setContent(content);
+        updated.setAuthorId(authorId);
+
+        noticeService.updateNotice(updated);
+        ra.addFlashAttribute("msg", "お知らせを更新しました。");
+        return "redirect:" + backUrl;
+    }
+
+
 
 }
