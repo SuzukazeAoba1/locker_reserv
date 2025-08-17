@@ -113,10 +113,10 @@
 </head>
 <body>
 
-<div style="text-align:left; margin-top:1rem;">
+<div style="text-align:left;">
   <form action="${pageContext.request.contextPath}/" method="get">
     <button type="submit"
-            style="width:200px; height:50px; margin:10px; font-size:20px;">
+            style="width:200px; height:50px; margin:20px; font-size:20px;">
       ルートへ戻る
     </button>
   </form>

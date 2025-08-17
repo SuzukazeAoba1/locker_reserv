@@ -9,7 +9,7 @@
   <title>ロッカー情報</title>
   <style>
   /* 페이지 폭을 고정해서 양쪽으로 안 퍼지게 */
-  .page{ width:1064px; margin:0 auto; padding:0 20px; box-sizing:border-box; }
+  .page{ width:1064px; margin:0; padding:0 12px; box-sizing:border-box; }
 
   /* ← 핵심: 두 블럭을 flex로, 각각 고정폭 */
   .two-col{ display:flex; gap:24px; align-items:flex-start; }
@@ -35,6 +35,20 @@
 <body>
 
 <div class="page">
+
+    <div style="margin-bottom:1rem; text-align:left;">
+      <c:url var="backUrl" value="/admin/lockers">
+        <c:param name="location" value="${backLocation}" />
+      </c:url>
+
+      <button type="button"
+              onclick="location.href='${backUrl}'"
+              style="width:200px; height:50px; margin:9pt 0; font-size:20px; padding:0; display:inline-flex; align-items:center; justify-content:center;">
+        一覧に戻る
+      </button>
+    </div>
+
+    <hr class="divider"/>
 
   <!-- ■ 상단: 딱 두 블럭(좌/우) -->
   <div class="two-col">
@@ -113,9 +127,6 @@
 
   <!-- ■ 하단: 버튼/메시지/뒤로가기 (풀폭) -->
   <div class="section">
-    <c:url var="backUrl" value="/admin/lockers">
-      <c:param name="location" value="${backLocation}" />
-    </c:url>
 
     <c:choose>
       <c:when test="${locker.status == 1}">
@@ -176,8 +187,6 @@
       <div style="color:red">${error}</div>
     </div>
 
-    <hr class="divider"/>
-    <a href="${backUrl}">一覧に戻る</a>
   </div><!-- /section -->
 
 </div><!-- /page -->
