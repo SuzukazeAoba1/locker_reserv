@@ -195,7 +195,17 @@ select * from LOCKERS;
 
 
 ALTER TABLE LOCKERS ADD (LOCKER_CODE VARCHAR2(4));
-ALTER TABLE LOCKERS ADD CONSTRAINT uq_lockers_code UNIQUE (LOCKER_CODE);
+ALTER TABLE LOCKERS ADD CONSTRAINT UQ_LOCKERS_LOCKER_CODE UNIQUE (LOCKER_CODE);
+ALTER TABLE LOCKERS DROP CONSTRAINT UQ_LOCKERS_LOCKER_CODE;
+ALTER TABLE LOCKERS DROP CONSTRAINT UQ_LOCKERS_LOCKER_CODE;
+ALTER TABLE RENTALS DROP CONSTRAINT FK_RENTALS_LOCKER_CODE;
+
+SELECT a.constraint_name, a.table_name, a.column_name
+FROM user_cons_columns a
+JOIN user_constraints c
+  ON a.constraint_name = c.constraint_name
+WHERE c.constraint_type = 'R'
+  AND c.r_constraint_name = 'UQ_LOCKERS_LOCKER_CODE';
 
 UPDATE LOCKERS l
 SET LOCKER_CODE = (
@@ -223,13 +233,33 @@ SET LOCKER_CODE = (
       id, location,
       ROW_NUMBER() OVER (
         PARTITION BY location
-        ORDER BY x ASC, y DESC         -- ★ 위→아래 증분, 열마다 층 수 달라도 OK
+        ORDER BY x ASC, y ASC        
       ) AS rn
     FROM LOCKERS
     -- 빈칸(status=5)을 코드에서 제외하고 싶다면 WHERE status <> 5 추가
   ) t
   WHERE t.id = l.id
 );
+
+
+
+UPDATE LOCKERS l
+SET LOCKER_CODE = (
+  SELECT code_to_set
+  FROM (
+    SELECT id, location,
+           ROW_NUMBER() OVER (PARTITION BY location ORDER BY x ASC, y ASC) AS rn
+    FROM LOCKERS
+  ) r
+  JOIN (
+    SELECT location, LOCKER_CODE AS code_to_set,
+           ROW_NUMBER() OVER (PARTITION BY location ORDER BY LOCKER_CODE ASC) AS rn
+    FROM LOCKERS
+  ) c ON c.location = r.location AND c.rn = r.rn
+  WHERE r.id = l.id
+);
+COMMIT;
+
 
 COMMIT;
 

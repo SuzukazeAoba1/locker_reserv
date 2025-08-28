@@ -1,0 +1,33 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<div class="notice-list">
+  <c:choose>
+    <c:when test="${not empty notices}">
+      <ul class="list-unstyled" style="margin:0; padding-left:0;">
+        <c:forEach var="a" items="${notices}" varStatus="st">
+          <c:if test="${st.index < 5}">
+            <li class="notice-item" style="padding:6px 0; border-bottom:1px solid #eee;">
+              <c:url var="detailUrl" value="/admin/notices/${a.id}/edit">
+                <c:param name="back" value="/admin/notices"/>
+              </c:url>
+              <a href="${pageContext.request.contextPath}${detailUrl}">
+                <c:out value="${a.title}"/>
+              </a>
+            </li>
+          </c:if>
+        </c:forEach>
+      </ul>
+    </c:when>
+    <c:otherwise>
+      <div class="empty" style="color:#777; padding:8px 0;">데이터가 없습니다.</div>
+    </c:otherwise>
+  </c:choose>
+
+  <!-- 선택: '더보기' 링크를 include 호출 시 파라미터로 넘길 수 있습니다. -->
+  <c:if test="${not empty param.moreUrl}">
+    <div style="text-align:right; margin-top:8px;">
+      <a href="${pageContext.request.contextPath}${param.moreUrl}">전체 보기</a>
+    </div>
+  </c:if>
+</div>
