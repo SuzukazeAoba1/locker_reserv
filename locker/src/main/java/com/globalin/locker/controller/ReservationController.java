@@ -27,7 +27,8 @@ public class ReservationController {
     private final LockerService lockerService;
     private final RentalService rentalService;
 
-    @GetMapping("/reservation/lockers/{lockerCode}")
+
+    @GetMapping("/lockers/{lockerCode}")
     public String lockerInfo(Model model, @PathVariable Long lockerCode, @RequestParam(required = false) Long userId) {
         //라커 정보 가져오기
         Locker locker = lockerService.getLockersByCode(lockerCode);
@@ -46,7 +47,7 @@ public class ReservationController {
     }
 //라커 정보 가져오기 end
 
-    @PostMapping("/reservation/lockers/{lockerCode}/reserve")
+    @PostMapping("/lockers/{lockerCode}/reserve")
     public String reserve(@PathVariable("lockerCode") Long lockerCode,
                           @RequestParam Long userId,
                           @RequestParam String location,
@@ -61,7 +62,7 @@ public class ReservationController {
                 UriUtils.encode(location, StandardCharsets.UTF_8);
     }
 
-    @PostMapping("/reservation/lockers/{lockerCode}/cancel")
+    @PostMapping("/lockers/{lockerCode}/cancel")
     public String cancel(@PathVariable ("lockerCode") Long lockerCode,
                          @RequestParam String location,
                          RedirectAttributes ra) {
@@ -75,6 +76,15 @@ public class ReservationController {
         return "redirect:/reservation/reservation/" + lockerCode + "?location=" +
                 UriUtils.encode(location, StandardCharsets.UTF_8);
     }
+    // 라커 예약 취소 메서드 end
 
+    @GetMapping("/lockers")
+    public String LockerByLocation(@RequestParam String location, Model model){
+        List<Locker> lockers = lockerService.getLockersByLocation(location);
+        model.addAttribute("lockers", lockers);
+        model.addAttribute("location", location);
+
+        return "reservation/lockers";
+    }
 
 }
