@@ -159,23 +159,7 @@
 </c:when>
 
 </c:choose>
-
-
-
-
-
-  <ul>
-    <li><a href="${url1}">西改札口券売機前</a></li>
-    <li><a href="${url2}">西改札口横</a></li>
-    <li><a href="${url3}">中央改札口横</a></li>
-    <li><a href="${url4}">東口改札口・5番出入口前</a></li>
-    <li><a href="${url5}">東口改札口出口付近</a></li>
-    <li><a href="${url6}">12番出入口前</a></li>
-    <li><a href="${url7}">お客様サービスセンター横</a></li>
-  </ul>
 </nav>
-
-<hr class="divider"/>
 
 <c:forEach var="l" items="${lockers}" begin="0" end="0">
   <h2 class="h-heading">${l.location} コインロッカー</h2>
