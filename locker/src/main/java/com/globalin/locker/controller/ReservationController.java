@@ -86,5 +86,20 @@ public class ReservationController {
 
         return "reservation/lockers";
     }
+    @GetMapping("/lockers/{code}/detail")
+    public String detail(@PathVariable Long code, @RequestParam(required = false) String location, Model model) {
+        Locker locker = lockerService.getLockersByCode(code);
+        model.addAttribute("locker", locker);
+        model.addAttribute("backLocation", location != null ? location : locker.getLocation());
+        // 👉 예약중(2) 또는 사용중(3)일 때만 조회해서 모델에 추가
+        if (locker.getStatus() != null && (locker.getStatus() == 2L || locker.getStatus() == 3L)) {
+            Rental active = rentalService.findLatestActiveByLocker(code); // 주입 필요
+            model.addAttribute("activeRental", active);
+        }
+        List<Rental> rentals = rentalService.getRentalsByLockerId(code);
+        model.addAttribute("rentals",rentals);
+
+        return "reservation/reservation";
+    }
 
 }
