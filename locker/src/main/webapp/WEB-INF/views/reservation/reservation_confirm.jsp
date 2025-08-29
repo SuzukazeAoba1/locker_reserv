@@ -5,6 +5,6 @@
     <title>타이틀</title>
 </head>
 <body>
-    <!-- 내용 -->
+    <h1>라커 예약을 확인.</h1>
 </body>
 </html>
