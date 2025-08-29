@@ -1,0 +1,28 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<div class="menu">
+  <c:url var="url1" value="/admin/lockers"><c:param name="location" value="西改札口券売機前"/></c:url>
+  <c:url var="url2" value="/admin/lockers"><c:param name="location" value="西改札口横"/></c:url>
+  <c:url var="url3" value="/admin/lockers"><c:param name="location" value="中央改札口横"/></c:url>
+  <c:url var="url4" value="/admin/lockers"><c:param name="location" value="東口改札口・5番出入口前"/></c:url>
+  <c:url var="url5" value="/admin/lockers"><c:param name="location" value="東口改札口出口付近"/></c:url>
+  <c:url var="url6" value="/admin/lockers"><c:param name="location" value="12番出入口前"/></c:url>
+  <c:url var="url7" value="/admin/lockers"><c:param name="location" value="お客様サービスセンター横"/></c:url>
+
+  <a class="menu-btn" href="${url1}">admin_lockers (西改札口券売機前)</a>
+  <a class="menu-btn" href="${url2}">admin_lockers (西改札口横)</a>
+  <a class="menu-btn" href="${url3}">admin_lockers (中央改札口横)</a>
+  <a class="menu-btn" href="${url4}">admin_lockers (東口改札口・5番出入口前)</a>
+  <a class="menu-btn" href="${url5}">admin_lockers (東口改札口出口付近)</a>
+  <a class="menu-btn" href="${url6}">admin_lockers (12番出入口前)</a>
+  <a class="menu-btn" href="${url7}">admin_lockers (お客様サービスセンター横)</a>
+
+  <a class="menu-btn" href="/reservation/lockers?location=西改札口券売機前">天神駅 lockers1</a>
+  <a class="menu-btn" href="/reservation/lockers?location=西改札口横">天神駅 lockers2</a>
+  <a class="menu-btn" href="/reservation/lockers?location=中央改札口横">天神駅 lockers3</a>
+  <a class="menu-btn" href="/reservation/lockers?location=東口改札口・5番出入口前">天神駅 lockers4</a>
+  <a class="menu-btn" href="/reservation/lockers?location=東口改札口出口付近">天神駅 lockers5</a>
+  <a class="menu-btn" href="/reservation/lockers?location=12番出入口前">天神駅 lockers6</a>
+  <a class="menu-btn" href="/reservation/lockers?location=お客様サービスセンター横">天神駅 lockers7</a>
+</div>
