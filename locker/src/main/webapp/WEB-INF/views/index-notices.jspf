@@ -5,18 +5,52 @@
   <c:choose>
     <c:when test="${not empty notices}">
       <ul class="list-unstyled" style="margin:0; padding-left:0;">
+        <!-- 헤더 -->
+        <li class="notice-header" style="padding:6px 0; border-bottom:2px solid #aaa; font-weight:bold;">
+
+          <!-- 글번호 (왼쪽 50pt) -->
+          <span style="display:inline-block; width:50pt; text-align:center; margin-right:8px;">
+            글번호
+          </span>
+
+          <!-- 제목 (가운데, 유동) -->
+          <span style="display:inline-block; width:calc(100% - 180pt); text-align:center; padding:0 8px;">
+            제목
+          </span>
+
+          <!-- 글쓴이 (오른쪽 100pt) -->
+          <span style="display:inline-block; width:100pt; text-align:center;">
+            글쓴이
+          </span>
+        </li>
+
+        <!-- 이후 기존 notice 항목들 반복 -->
         <c:forEach var="a" items="${notices}" varStatus="st">
           <c:if test="${st.index < 5}">
             <li class="notice-item" style="padding:6px 0; border-bottom:1px solid #eee;">
-              <c:url var="detailUrl" value="/admin/notices/${a.id}/edit">
-                <c:param name="back" value="/admin/notices"/>
-              </c:url>
-              <a href="${pageContext.request.contextPath}${detailUrl}">
-                <c:out value="${a.title}"/>
-              </a>
+              <span class="notice-id"
+                    style="display:inline-block; width:50pt; text-align:center; margin-right:8px; color:#999;">
+                #<c:out value="${a.id}" />
+              </span>
+
+              <span class="notice-title"
+                    style="display:inline-block; width:calc(100% - 180pt); text-align:left; padding:0 8px;">
+                <c:url var="detailUrl" value="/admin/notices/${a.id}/edit">
+                  <c:param name="back" value="/admin/notices"/>
+                </c:url>
+                <a href="${pageContext.request.contextPath}${detailUrl}">
+                  <c:out value="${a.title}" />
+                </a>
+              </span>
+
+              <span class="notice-author"
+                    style="display:inline-block; width:100pt; text-align:center; color:#666;">
+                <c:out value="${a.authorId}" default="-" />
+              </span>
             </li>
           </c:if>
         </c:forEach>
+
       </ul>
     </c:when>
     <c:otherwise>

@@ -9,33 +9,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
-      --page-max-w: 1200px;  /* 페이지 최대 폭 */
-      --page-max-h: 900px;   /* 페이지 최대 높이 */
-      --pad: 16px;           /* 페이지 안쪽 여백 */
-      --gap: 12px;           /* 영역 간 간격 */
-      --top-h: 350px;        /* 상단(로그인+공지) 높이 */
-      --left-w: 400px;       /* 로그인 패널 너비 */
+      /* 원하는 고정 크기로 맞추세요 */
+      --page-max-w: 1200px;  /* 전체 페이지 가로 고정 */
+      --page-max-h: 900px;   /* 전체 페이지 세로 고정 */
+      --pad: 16px;           /* 페이지 내부 패딩 */
+      --gap: 12px;           /* 패널 간 간격 */
+      --top-h: 350px;        /* 상단(로그인+공지) 영역 높이 고정 */
+      --left-w: 400px;       /* 로그인 패널 너비 고정 */
       --card-border: 1px solid #666;
+
+      /* 고정 계산 값들 */
+      --right-w: calc(var(--page-max-w) - (var(--pad)*2) - var(--gap) - var(--left-w));
+      --bottom-h: calc(var(--page-max-h) - (var(--pad)*2) - var(--gap) - var(--top-h));
     }
 
-    /* 전체 페이지 캔버스: 브라우저보다 커지지 않음 */
+    /* (선택) 뷰포트가 더 작을 때 페이지 전체가 스크롤되도록 */
+    html, body { height:100%; }
+    body { overflow:auto; }
+
     .page {
-      width: min(100vw, var(--page-max-w));
-      height: min(100vh, var(--page-max-h));
+      /* 뷰포트에 맞추지 않고 고정값으로 */
+      width: var(--page-max-w);
+      height: var(--page-max-h);
       margin: 0 auto;
       padding: var(--pad);
       box-sizing: border-box;
+
       display: grid;
-      grid-template-rows: var(--top-h) 1fr; /* 상단 고정 + 하단 남는 높이 */
+      /* 상단/하단 모두 고정 높이 */
+      grid-template-rows: var(--top-h) var(--bottom-h);
       row-gap: var(--gap);
+
       background: #fafafa;
-      border: 1px solid #ccc; /* 확인용 */
+      border: 1px solid #ccc;
     }
 
-    /* 상단 2칼럼 그리드 */
+    /* 상단 2칼럼도 좌/우 모두 고정 폭 */
     .top-grid {
       display: grid;
-      grid-template-columns: var(--left-w) 1fr; /* 좌 고정, 우 가변 */
+      grid-template-columns: var(--left-w) var(--right-w);
       column-gap: var(--gap);
       height: 100%;
     }
@@ -48,7 +60,7 @@
       box-sizing: border-box;
       padding: 16px;
       border-radius: 6px;
-      overflow: hidden; /* 내부에서 스크롤 제어 */
+      overflow: hidden; /* 내부 스크롤 제어 */
     }
 
     /* 로그인(좌) */
@@ -59,6 +71,8 @@
       display: flex;
       flex-direction: column;
     }
+    /* 공지 패널 내부 스크롤 구조 유지 */
+    .notice-panel { display:flex; flex-direction:column; }
     .notice-header {
       position: sticky;
       top: 0;
@@ -68,12 +82,9 @@
       border-bottom: 1px solid #ddd;
       z-index: 1;
     }
-    .notice-body {
-      flex: 1;
-      overflow-y: auto;
-    }
+    .notice-body { flex:1; overflow-y:auto; }
 
-    /* 하단 지도(전폭, 남는 높이 꽉 채움) */
+    /* 하단 지도: 고정 높이 이미 확보됨 */
     .map-panel {
       border: var(--card-border);
       background: #fff;
@@ -81,7 +92,7 @@
       padding: 16px;
       box-sizing: border-box;
       height: 100%;
-      overflow: hidden; /* 필요시 내부에서 스크롤 */
+      overflow: hidden;
     }
 
     .menu {
@@ -113,29 +124,32 @@
     <!-- 상단: 로그인 + 공지 -->
     <section class="top-grid">
       <div class="card login-panel">
-      <h3 style="margin-top:0;">로그인</h3>
+      <h3 style="margin:0 0 8px; text-align:center;">로그인</h3>
+      <%@ include file="/WEB-INF/views/index-login.jspf" %>
         <ul>
+        <!--
         <div class="menu">
           <a class="menu-btn" href="/test/lockers">Lockers</a>
           <a class="menu-btn" href="/admin/rentals">admin_rentals</a>
           <a class="menu-btn" href="/admin/accounts">admin_users</a>
         </div>
+        -->
         </ul>
       </div>
 
       <div class="card notice-panel">
         <div class="notice-header">
-          <h3 style="margin:0;">공지사항</h3>
+          <h3 style="margin:0; text-align:center;" >공지사항</h3>
         </div>
         <div class="notice-body">
           <%@ include file="/WEB-INF/views/index-notices.jspf" %>
-          <a class="menu-btn" href="/admin/notices">admin_notices</a>
+          <!--<a class="menu-btn" href="/admin/notices">admin_notices</a>-->
         </div>
       </div>
     </section>
 
     <section class="map-panel">
-      <h3 style="margin-top:0;">미니 지도 / 버튼</h3>
+      <h3 style="margin-top:0; text-align:center;">미니 지도 / 버튼</h3>
       <div class="menu">
         <c:url var="url1" value="/admin/lockers"><c:param name="location" value="西改札口券売機前"/></c:url>
         <c:url var="url2" value="/admin/lockers"><c:param name="location" value="西改札口横"/></c:url>
