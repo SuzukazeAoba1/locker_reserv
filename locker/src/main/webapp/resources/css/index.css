@@ -48,16 +48,28 @@ html,body{height:100%} body{overflow:auto}
 /* 메뉴(버튼 모음) */
 .menu{margin:16px 0; display:flex; flex-wrap:wrap; gap:10px}
 
-/* 버튼 계열 중복 정리: 공통 베이스 + 각 사이즈/변형 */
-.btn, .menu-btn{
-  display:inline-block; border-radius:6px; cursor:pointer;
-  text-decoration:none; font-weight:600; transition:background .2s;
+/* 공통 베이스(필요 시) */
+.btn{display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s}
+
+.menu-btn,.map-button{
+  display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
+  width:240px;height:80px;line-height:80px;text-align:center;
+  background-color:var(--color-primary);color:#fff;border:1px solid var(--color-primary-dark);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.btn{padding:20px 30px}
-.menu-btn{padding:10px 16px; background-color:var(--color-primary); color:#fff; border:1px solid var(--color-primary-dark)}
-.menu-btn:hover{background-color:var(--color-primary-dark)}
-.btn-primary{background:#2d6cdf; color:#fff; border:0}
-.btn-outline{background:#fff; border:1px solid var(--color-border)}
+.menu-btn:hover,.map-button:hover{background-color:var(--color-primary-dark)}
+
+.login-button{
+  display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
+  width:120px;height:44px;line-height:44px;text-align:center;
+  background:#2d6cdf;color:#fff;border:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.login-button:hover{background:#1f4ca0}
+
+/* 필요 시 외곽선 스타일 유지 */
+.btn-outline{background:#fff;border:1px solid var(--color-border);height:40px;line-height:40px;padding:0 16px}
+
 
 /* 공지 리스트(공통 속성 묶음) */
 .notice-list .list-unstyled{margin:0; padding-left:0; list-style:none}

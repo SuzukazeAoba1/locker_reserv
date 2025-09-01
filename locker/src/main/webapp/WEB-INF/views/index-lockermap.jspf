@@ -13,12 +13,12 @@
     <c:url var="adminUrl" value="/admin/lockers">
       <c:param name="location" value="${loc}" />
     </c:url>
-    <a class="menu-btn" href="${adminUrl}">admin_lockers (${loc})</a>
+    <a class="map-button" href="${adminUrl}">${loc}</a>
   </c:if>
 
   <!-- 일반 사용자 / 비로그인일 때 예약 메뉴 표시 -->
   <c:if test="${sessionScope.loginUser == null || sessionScope.loginUser.role ne 'ADMIN'}">
-    <a class="menu-btn" href="/reservation/lockers?location=${loc}">
+    <a class="map-button" href="/reservation/lockers?location=${loc}">
       天神駅 lockers${st.index + 1}
     </a>
   </c:if>

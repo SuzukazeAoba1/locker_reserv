@@ -26,21 +26,23 @@
     </c:when>
 
     <c:otherwise>
-      <p style="margin:0 0 12px;">
+      <p style="margin:12px 0 24px; text-align:center;">
         <strong><c:out value="${sessionScope.loginUser.username}"/></strong> 님 환영합니다.
       </p>
+
+      <form method="post" action="${pageContext.request.contextPath}/logout" style="text-align:center;">
+            <c:if test="${not empty _csrf}">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </c:if>
+         <button class="login-button"  type="submit">로그아웃</button>
+      </form>
+
       <ul>
           <c:if test="${sessionScope.loginUser != null && sessionScope.loginUser.role eq 'ADMIN'}">
               <div class="menu">
-                <a class="menu-btn" href="/test/lockers">Lockers</a>
-                <a class="menu-btn" href="/admin/rentals">admin_rentals</a>
-                <a class="menu-btn" href="/admin/accounts">admin_users</a>
-                 <form method="post" action="${pageContext.request.contextPath}/logout">
-                    <c:if test="${not empty _csrf}">
-                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </c:if>
-                    <button class="menu-btn" type="submit">로그아웃</button>
-                 </form>
+                <a class="login-button" href="/test/lockers">Lockers</a>
+                <a class="login-button" href="/admin/rentals">admin_rentals</a>
+                <a class="login-button" href="/admin/accounts">admin_users</a>
               </div>
           </c:if>
       </ul>

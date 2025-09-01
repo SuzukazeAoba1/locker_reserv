@@ -35,7 +35,5 @@
       <%@ include file="/WEB-INF/views/index-lockermap.jspf" %>
     </section>
   </main>
-
-
 </body>
 </html>
