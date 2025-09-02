@@ -31,7 +31,6 @@
     </section>
 
     <section class="map-panel">
-      <h3 style="margin-top:0; text-align:center;">미니 지도 / 버튼</h3>
       <%@ include file="/WEB-INF/views/index-lockermap.jspf" %>
     </section>
   </main>

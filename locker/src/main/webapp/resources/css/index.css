@@ -9,9 +9,15 @@
   --bottom-h:calc(var(--page-max-h) - (var(--pad)*2) - var(--gap) - var(--top-h));
 
   /* 색 토큰(중복 값 정리) */
+
   --color-primary:#3498db; --color-primary-dark:#2980b9;
   --color-border:#ccc; --color-border-strong:#666;
   --color-error:#b00020; --color-error-bg:#fff6f6; --color-error-border:#f2c0c0;
+
+  --btn-bg: var(--color-primary);
+  --btn-bg-hover: var(--color-primary-dark);
+  --btn-fg: #fff;
+  --btn-border: var(--color-primary-dark);
 }
 
 /* 기본 스크롤 */
@@ -32,9 +38,68 @@ html,body{height:100%} body{overflow:auto}
 }
 
 /* 공통 카드 스타일(중복 합침) */
-.card, .map-panel{
+.card {
   height:100%; background:#fff; border:var(--card-border);
   box-sizing:border-box; padding:16px; border-radius:6px; overflow:hidden;
+}
+
+.map-panel {
+    border:var(--card-border); padding:16px; border-radius:6px;
+    min-height:360px;
+    position: relative;
+    background-image: url('/resources/img/bg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.map-panel .map-button{
+  /* 위치 */
+  position: absolute;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+
+  /* 공통 버튼 속성 병합 */
+  display:inline-block;
+  border-radius:6px;
+  cursor:pointer;
+  text-decoration:none;
+  font-weight:600;
+  transition:background .2s;
+  text-align:center;
+  background-color:var(--color-primary);
+  color:#fff;
+  border:1px solid var(--color-primary-dark);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+
+  /* 지도용 크기 (공통 120×40 대신 100×60 적용) */
+  width:100px;
+  height:60px;
+  line-height:60px;
+
+  background-color:#e0b800;
+  color:#111;                  /* 노랑 위 텍스트는 진한 색이 가독성 좋음 */
+  border:1px solid #a88600;    /* 테두리는 더 어둡게 */
+  font-size: 40px;     /* 기존보다 크게 조정 */
+  color: #d80000;      /* 빨강 텍스트 */
+  font-weight: 700;    /* 가독성 향상 */
+  text-shadow: 0 1px 0 rgba(0,0,0,0.15);
+}
+
+/* 호버도 범위 한정 */
+.map-panel .map-button:hover{
+  background-color:#c79f00;
+  color:#111;
+  border-color:#c79f00;
+  color: #d80000;
+}
+
+.map-panel .map-button:nth-child(7){
+  width: 40px;   /* 기존 height 값 */
+  height: 80px; /* 기존 width 값 */
+  line-height: 80px; /* 텍스트 수직정렬이 필요하면 조정 */
 }
 
 /* 공지 패널(헤더 스코프 명확화) */
@@ -51,13 +116,13 @@ html,body{height:100%} body{overflow:auto}
 /* 공통 베이스(필요 시) */
 .btn{display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s}
 
-.menu-btn,.map-button{
+.menu-btn {
   display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
-  width:240px;height:80px;line-height:80px;text-align:center;
+  width:120px;height:40px;line-height:40px;text-align:center;
   background-color:var(--color-primary);color:#fff;border:1px solid var(--color-primary-dark);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.menu-btn:hover,.map-button:hover{background-color:var(--color-primary-dark)}
+.menu-btn:hover{background-color:var(--color-primary-dark)}
 
 .login-button{
   display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
