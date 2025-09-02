@@ -16,7 +16,7 @@
     <section class="top-grid">
       <div class="card login-panel">
       <h3 style="margin:0 0 8px; text-align:center;">로그인</h3>
-      <%@ include file="/WEB-INF/views/index-login.jspf" %>
+        <%@ include file="/WEB-INF/views/index-login.jspf" %>
       </div>
 
       <div class="card notice-panel">

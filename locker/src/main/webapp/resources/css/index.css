@@ -21,7 +21,9 @@
 }
 
 /* 기본 스크롤 */
-html,body{height:100%} body{overflow:auto}
+html {height:auto;}
+html, body { margin:0; padding:0; }
+body{ min-height: calc(100vh - 16px); overflow:auto; padding-top:16px; }
 
 /* 페이지 레이아웃 (크기 동일) */
 .page{
@@ -124,13 +126,22 @@ html,body{height:100%} body{overflow:auto}
 }
 .menu-btn:hover{background-color:var(--color-primary-dark)}
 
-.login-button{
+.login-menu{
   display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
-  width:120px;height:44px;line-height:44px;text-align:center;
+  width:135px;height:48px;line-height:48px;text-align:center;
   background:#2d6cdf;color:#fff;border:0;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .login-button:hover{background:#1f4ca0}
+
+.login-button{
+  display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
+  width:200px;height:64px;line-height:64px;text-align:center;
+  background:#2d6cdf;color:#fff;border:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom: 12px;
+}
+.login-menu:hover, .login-button:hover{background:#1f4ca0}
 
 /* 필요 시 외곽선 스타일 유지 */
 .btn-outline{background:#fff;border:1px solid var(--color-border);height:40px;line-height:40px;padding:0 16px}
@@ -158,10 +169,21 @@ html,body{height:100%} body{overflow:auto}
 /* 로그인 패널(폼) – 레이아웃값 유지 */
 .panel{width:360px; height:281px; overflow:auto}
 .panel form[action$="/login"]{display:flex; flex-direction:column; height:100%}
-.center{margin-top:auto}
 .row{margin:8px 0}
 .label{display:block; font-size:14px; margin-bottom:4px}
 .input{font-size:24px; width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box}
+.login-form{
+  display:flex;
+  flex-direction:column;
+  min-height:100%;           /* 레이아웃에 따라 100vh 사용 가능 */
+}
+.login-form .center{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.center{text-align:center}
 .right{text-align:right}
 .error{
   margin-bottom:8px; padding:8px; background:var(--color-error-bg); color:var(--color-error);

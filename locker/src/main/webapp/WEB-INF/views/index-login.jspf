@@ -4,7 +4,7 @@
 <div class="panel">
   <c:choose>
     <c:when test="${empty sessionScope.loginUser}">
-      <form method="post" action="${pageContext.request.contextPath}/login">
+      <form class="login-form" method="post" action="${pageContext.request.contextPath}/login">
         <div class="row">
           <label class="label" for="loginId">ID</label>
           <input class="input" type="text" id="loginId" name="loginId" required autocomplete="username"/>
@@ -20,7 +20,7 @@
         </c:if>
 
         <div class="center">
-          <button class="btn btn-primary" type="submit">로그인</button>
+          <button class="login-button" type="submit">로그인</button>
         </div>
       </form>
     </c:when>
@@ -40,9 +40,9 @@
       <ul>
           <c:if test="${sessionScope.loginUser != null && sessionScope.loginUser.role eq 'ADMIN'}">
               <div class="menu">
-                <a class="login-button" href="/test/lockers">Lockers</a>
-                <a class="login-button" href="/admin/rentals">admin_rentals</a>
-                <a class="login-button" href="/admin/accounts">admin_users</a>
+                <a class="login-menu" href="/test/lockers">Lockers</a>
+                <a class="login-menu" href="/admin/rentals">admin_rentals</a>
+                <a class="login-menu" href="/admin/accounts">admin_users</a>
               </div>
           </c:if>
       </ul>
