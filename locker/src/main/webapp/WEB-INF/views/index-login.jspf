@@ -34,15 +34,16 @@
             <c:if test="${not empty _csrf}">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </c:if>
-         <button class="login-button"  type="submit">로그아웃</button>
+         <button class="logout-button"  type="submit">로그아웃</button>
       </form>
 
       <ul>
           <c:if test="${sessionScope.loginUser != null && sessionScope.loginUser.role eq 'ADMIN'}">
               <div class="menu">
-                <a class="login-menu" href="/test/lockers">Lockers</a>
+                <a class="login-menu" href="/test/lockers">admin_lockers</a>
                 <a class="login-menu" href="/admin/rentals">admin_rentals</a>
                 <a class="login-menu" href="/admin/accounts">admin_users</a>
+                <a class="login-menu" href="/admin/notices">admin_notices</a>
               </div>
           </c:if>
       </ul>

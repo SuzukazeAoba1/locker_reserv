@@ -29,7 +29,7 @@ public class ReservationController {
     private final RentalService rentalService;
 
 
-    // 1. 라커 목록 (lockers.jsp)
+    // 1. 라커 목록 (admin_lockers_list.jsp)
     @GetMapping("/lockers")
     public String lockersByLocation(Model model, @RequestParam String location) {
         List<Locker> lockers = lockerService.getLockersByLocation(location);
@@ -68,6 +68,7 @@ public class ReservationController {
                           @RequestParam int days,
                           RedirectAttributes ra,
                           @RequestParam(required = false) String location) {
+
         Locker locker = lockerService.getLockersByCode(lockerCode);
         try {
             Long rid = rentalService.reserveOrCancel(lockerCode, userId, RentalService.Action.RESERVE);

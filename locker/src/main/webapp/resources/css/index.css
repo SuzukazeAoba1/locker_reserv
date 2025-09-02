@@ -23,7 +23,11 @@
 /* 기본 스크롤 */
 html {height:auto;}
 html, body { margin:0; padding:0; }
-body{ min-height: calc(100vh - 16px); overflow:auto; padding-top:16px; }
+body{
+  min-height: calc(100vh - 16px); /* 위 패딩 보정 */
+  padding-top: 16px;              /* 기존 여백 유지 */
+  overflow: auto;
+}
 
 /* 페이지 레이아웃 (크기 동일) */
 .page{
@@ -135,6 +139,14 @@ body{ min-height: calc(100vh - 16px); overflow:auto; padding-top:16px; }
 .login-button:hover{background:#1f4ca0}
 
 .login-button{
+  display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
+  width:200px;height:64px;line-height:64px;text-align:center;
+  background:#2d6cdf;color:#fff;border:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  margin-bottom: 12px; margin-top: 20px;
+}
+
+.logout-button{
   display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
   width:200px;height:64px;line-height:64px;text-align:center;
   background:#2d6cdf;color:#fff;border:0;

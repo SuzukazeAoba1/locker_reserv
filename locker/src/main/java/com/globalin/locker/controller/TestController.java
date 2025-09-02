@@ -29,7 +29,7 @@ public class TestController {
         List<Locker> lockers = lockerService.getAllLockers();
         log.debug("lockers size={}", lockers.size());
         model.addAttribute("lockers", lockers);
-        return "_test/lockers";
+        return "admin/admin_lockers_list";
     }
 
 

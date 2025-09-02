@@ -19,8 +19,8 @@
               <span class="notice-id">#<c:out value="${a.id}" /></span>
 
               <span class="notice-title">
-                <c:url var="detailUrl" value="/admin/notices/${a.id}/edit">
-                  <c:param name="back" value="/admin/notices"/>
+                <c:url var="detailUrl" value="/user/notices/${a.id}">
+                  <c:param name="back" value="/"/>
                 </c:url>
                 <a href="${pageContext.request.contextPath}${detailUrl}">
                   <c:out value="${a.title}" />
