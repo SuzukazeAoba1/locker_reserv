@@ -19,6 +19,10 @@ public class NoticeService {
         return noticeMapper.selectAll();
     }
 
+    public int getAllNoticesCount() {
+        return noticeMapper.selectPageCount().intValue();
+    }
+
     @Transactional
     public int updateNotice(Notice n) {
         int rows = noticeMapper.update(n);
@@ -41,7 +45,6 @@ public class NoticeService {
     public List<Notice> getNoticesPage(int offset, int limit) {
         return noticeMapper.selectPage(offset, limit);
     }
-
     // Create / Update / Delete
     public int createNotice(Notice notice) {
         return noticeMapper.insert(notice);
@@ -51,6 +54,7 @@ public class NoticeService {
     public int deleteNotice(long id) {
         return noticeMapper.deleteById(id);
     }
+
 
 
 }

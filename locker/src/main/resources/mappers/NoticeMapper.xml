@@ -26,6 +26,10 @@
         ORDER BY ID
     </select>
 
+    <select id="selectPageCount" resultType="long">
+        SELECT Count(*) FROM NOTICES
+    </select>
+
     <!-- Read: 단건 (PK) -->
     <select id="selectById" parameterType="long" resultMap="NoticeResultMap">
         SELECT <include refid="Notice_Columns"/>

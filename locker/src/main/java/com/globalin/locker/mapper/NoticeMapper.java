@@ -18,6 +18,7 @@ public interface NoticeMapper {
     List<Notice> selectPage(@Param("offset") int offset,
                             @Param("limit") int limit);
 
+    Long selectPageCount();
     int insert(Notice notice);
     int update(Notice notice);
     int deleteById(@Param("id") long id);

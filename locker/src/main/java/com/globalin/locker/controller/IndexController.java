@@ -23,7 +23,31 @@ public class IndexController {
     @GetMapping("/")
     public String index(@RequestParam(defaultValue = "1") int page, Model model) {
 
-        model.addAttribute("notices", noticeService.getNoticesPage(0,5)); // 5개만 가져오면 더 깔끔
+
+        int pageSize = 5;
+        int offset = pageSize * (page-1);
+        int count = noticeService.getAllNoticesCount();
+        int pageBlock = 1, imsi = 1, pageCount = 1, startPage = 1, endPage = 1;
+
+
+        if(count > 0){
+
+            pageBlock = 5;
+            imsi = count % pageSize == 0 ? 0 : 1;
+            pageCount = count / pageSize + imsi;
+            startPage = ((page - 1) / pageBlock) * pageBlock + 1;
+            endPage = startPage + pageBlock - 1;
+
+            if(endPage > pageCount) endPage = pageCount;
+        }
+
+        model.addAttribute("notices", noticeService.getNoticesPage(offset,pageSize)); // 5개만 가져오면 더 깔끔
+        model.addAttribute("pageCount", pageCount);
+        model.addAttribute("pageBlock", pageBlock);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+
         return "index";
     }
 

@@ -62,6 +62,5 @@
         <div class="empty">데이터가 없습니다.</div>
     </c:otherwise>
 </c:choose>
-
 </body>
 </html>

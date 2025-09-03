@@ -13,25 +13,31 @@
         </li>
 
         <!-- 항목 반복 -->
-        <c:forEach var="a" items="${notices}" varStatus="st">
-          <c:if test="${st.index < 5}">
-            <li class="notice-item">
-              <span class="notice-id">#<c:out value="${a.id}" /></span>
-
-              <span class="notice-title">
-                <c:url var="detailUrl" value="/user/notices/${a.id}">
-                  <c:param name="back" value="/"/>
-                </c:url>
-                <a href="${pageContext.request.contextPath}${detailUrl}">
-                  <c:out value="${a.title}" />
-                </a>
-              </span>
-
-              <span class="notice-author">
-                <c:out value="${a.authorId}" default="-" />
-              </span>
-            </li>
-          </c:if>
+        <c:forEach var="i" begin="0" end="4">
+          <c:choose>
+            <c:when test="${not empty notices and i < fn:length(notices)}">
+              <c:set var="a" value="${notices[i]}" />
+              <!-- 실제 행 렌더 -->
+              <li class="notice-item">
+                <span class="notice-id">#<c:out value="${a.id}" /></span>
+                <span class="notice-title">
+                  <c:url var="detailUrl" value="/user/notices/${a.id}"/>
+                  <a href="${pageContext.request.contextPath}${detailUrl}">
+                    <c:out value="${a.title}" />
+                  </a>
+                </span>
+                <span class="notice-author"><c:out value="${a.authorId}" default="-" /></span>
+              </li>
+            </c:when>
+            <c:otherwise>
+              <!-- 공백 행 -->
+              <li class="notice-item placeholder">
+                <span class="notice-id">&nbsp;</span>
+                <span class="notice-title">&nbsp;</span>
+                <span class="notice-author">&nbsp;</span>
+              </li>
+            </c:otherwise>
+          </c:choose>
         </c:forEach>
       </ul>
     </c:when>
@@ -46,4 +52,16 @@
       <a href="${pageContext.request.contextPath}${param.moreUrl}">전체 보기</a>
     </div>
   </c:if>
+</div>
+
+<div class="center" style="padding-top:16px;">
+    <c:if test="${startPage > pageBlock}">
+        <a href="/?page=${startPage-pageBlock}">[이전]</a>
+    </c:if>
+    <c:forEach var="i" begin="${startPage}" end="${endPage}">
+    <a href="/?page=${i}">[${i}]</a>
+    </c:forEach >
+    <c:if test="${endPage < pageCount}">
+        <a href="/?page=${startPage+pageBlock}">[다음]</a>
+    </c:if>
 </div>

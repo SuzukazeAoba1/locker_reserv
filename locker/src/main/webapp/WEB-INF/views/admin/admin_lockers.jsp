@@ -109,6 +109,11 @@
   .status-3{ background:#FF9800; color:#fff; } /* 사용 중 */
   .status-4{ background:#9E9E9E; color:#fff; } /* 점검 중 */
   .status-5{ cursor:default; pointer-events:none; opacity:.75; } /* 빈 슬롯 */
+
+  .locker-btn.status-1:hover { background:#43A047; color:#fff; } /* 사용 가능 */
+  .locker-btn.status-2:hover { background:#1E88E5; color:#fff; } /* 예약됨 */
+  .locker-btn.status-3:hover { background:#FB8C00; color:#fff; } /* 사용 중 */
+  .locker-btn.status-4:hover { background:#8E8E8E; color:#fff; } /* 점검 중 */
 </style>
 </head>
 <body>
