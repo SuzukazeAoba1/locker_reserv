@@ -168,7 +168,7 @@ body{
   display:inline-block; width:80pt; text-align:center; margin-right:8px; color:#999;
 }
 .notice-list .notice-title, .notice-list .notice-title-head{
-  display:inline-block; width:calc(100% - 220pt); padding:0 8px;
+  display:inline-block; width:calc(100% - 207pt); padding:0 8px;
 }
 .notice-list .notice-title-head{text-align:center}
 .notice-list .notice-title{text-align:left}
