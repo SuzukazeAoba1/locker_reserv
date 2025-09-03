@@ -165,10 +165,10 @@ body{
 .notice-list .notice-header{border-bottom:2px solid #aaa; font-weight:bold}
 .notice-list .notice-item{border-bottom:1px solid #eee}
 .notice-list .notice-id, .notice-list .notice-id-head{
-  display:inline-block; width:50pt; text-align:center; margin-right:8px; color:#999;
+  display:inline-block; width:80pt; text-align:center; margin-right:8px; color:#999;
 }
 .notice-list .notice-title, .notice-list .notice-title-head{
-  display:inline-block; width:calc(100% - 180pt); padding:0 8px;
+  display:inline-block; width:calc(100% - 220pt); padding:0 8px;
 }
 .notice-list .notice-title-head{text-align:center}
 .notice-list .notice-title{text-align:left}

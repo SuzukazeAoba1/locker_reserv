@@ -12,6 +12,7 @@
         <result property="content"   column="CONTENT"/>
         <result property="authorId"  column="AUTHOR_ID"/>
         <result property="createdAt" column="CREATED_AT"/>
+        <result property="authorUsername" column="AUTHOR_USERNAME"/>
     </resultMap>
 
     <!-- 공통 컬럼 목록 -->
@@ -47,9 +48,16 @@
 
     <!-- 페이징 (Oracle 12c+) -->
     <select id="selectPage" resultMap="NoticeResultMap">
-        SELECT <include refid="Notice_Columns"/>
-        FROM NOTICES
-        ORDER BY ID DESC
+        SELECT
+        n.ID,
+        n.TITLE,
+        n.CONTENT,
+        n.AUTHOR_ID,
+        n.CREATED_AT,
+        a.USERNAME AS AUTHOR_USERNAME
+        FROM NOTICES n
+        LEFT JOIN ACCOUNTS a ON a.ID = n.AUTHOR_ID
+        ORDER BY n.ID DESC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
     </select>
 

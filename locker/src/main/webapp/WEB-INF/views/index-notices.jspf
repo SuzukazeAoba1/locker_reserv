@@ -26,7 +26,7 @@
                     <c:out value="${a.title}" />
                   </a>
                 </span>
-                <span class="notice-author"><c:out value="${a.authorId}" default="-" /></span>
+                <span class="notice-author"><c:out value="${a.authorUsername}" default="-" /></span>
               </li>
             </c:when>
             <c:otherwise>
