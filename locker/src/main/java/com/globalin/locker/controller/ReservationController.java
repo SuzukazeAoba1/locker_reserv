@@ -7,6 +7,7 @@ import com.globalin.locker.service.AccountService;
 import com.globalin.locker.service.LockerService;
 import com.globalin.locker.service.RentalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +20,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Controller
 @RequestMapping("/reservation")
-@RequiredArgsConstructor
 public class ReservationController {
 
     private final AccountService accountService;

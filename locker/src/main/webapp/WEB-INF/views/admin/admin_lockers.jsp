@@ -40,7 +40,6 @@
   }
   .location-nav a:hover{ background:#eee; }
 
-
   body{ margin:0; }
 
   /* 창이 좁아지면 가로 스크롤 (자동 줄바꿈 금지 유지) */

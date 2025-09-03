@@ -9,6 +9,7 @@ import com.globalin.locker.service.LockerService;
 import com.globalin.locker.service.NoticeService;
 import com.globalin.locker.service.RentalService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +21,9 @@ import org.springframework.web.util.UriUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Controller
 @RequestMapping("/admin")
-@RequiredArgsConstructor
 public class AdminController {
 
     private final AccountService accountService;

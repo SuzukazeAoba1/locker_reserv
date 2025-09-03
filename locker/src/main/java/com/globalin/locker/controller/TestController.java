@@ -4,6 +4,7 @@ import com.globalin.locker.domain.*;
 import com.globalin.locker.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Slf4j                        // ✅ Lombok: log 객체(log.debug(), log.info() 등) 자동 생성
 @Controller                   // ✅ Spring MVC: 이 클래스를 컨트롤러로 등록 (View 반환 가능)
 @RequestMapping("/test")      // ✅ 기본 URL 경로 prefix 설정 → 모든 메서드 URL 앞에 "/test" 붙음
-@RequiredArgsConstructor      // ✅ Lombok: final 필드나 @NonNull 필드에 대한 생성자 자동 생성 (DI 용이)
 public class TestController {
 
     private final AccountService accountService;
