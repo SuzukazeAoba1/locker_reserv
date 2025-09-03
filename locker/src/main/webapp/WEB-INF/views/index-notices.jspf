@@ -7,9 +7,9 @@
       <ul class="list-unstyled">
         <!-- 헤더 -->
         <li class="notice-header">
-          <span class="notice-id-head">글번호</span>
-          <span class="notice-title-head">제목</span>
-          <span class="notice-author-head">글쓴이</span>
+          <span class="notice-id-head">番号</span>
+          <span class="notice-title-head">件名</span>
+          <span class="notice-author-head">投稿者</span>
         </li>
 
         <!-- 항목 반복 -->
@@ -41,27 +41,20 @@
         </c:forEach>
       </ul>
     </c:when>
-
     <c:otherwise>
-      <div class="empty">데이터가 없습니다.</div>
+      <div class="empty">データが存在しません</div>
     </c:otherwise>
   </c:choose>
-
-  <c:if test="${not empty param.moreUrl}">
-    <div class="notice-more">
-      <a href="${pageContext.request.contextPath}${param.moreUrl}">전체 보기</a>
-    </div>
-  </c:if>
 </div>
 
 <div class="center" style="padding-top:16px;">
     <c:if test="${startPage > pageBlock}">
-        <a href="/?page=${startPage-pageBlock}">[이전]</a>
+        <a href="/?page=${startPage-pageBlock}">[前へ]</a>
     </c:if>
     <c:forEach var="i" begin="${startPage}" end="${endPage}">
     <a href="/?page=${i}">[${i}]</a>
     </c:forEach >
     <c:if test="${endPage < pageCount}">
-        <a href="/?page=${startPage+pageBlock}">[다음]</a>
+        <a href="/?page=${startPage+pageBlock}">[次へ]</a>
     </c:if>
 </div>

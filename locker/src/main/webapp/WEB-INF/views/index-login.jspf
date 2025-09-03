@@ -11,7 +11,7 @@
         </div>
 
         <div class="row">
-          <label class="label" for="password">비밀번호</label>
+          <label class="label" for="password">Password</label>
           <input class="input" type="password" id="password" name="password" required autocomplete="current-password"/>
         </div>
 
@@ -20,21 +20,21 @@
         </c:if>
 
         <div class="center">
-          <button class="login-button" type="submit">로그인</button>
+          <button class="login-button" type="submit">ログイン</button>
         </div>
       </form>
     </c:when>
 
     <c:otherwise>
       <p style="margin:12px 0 24px; text-align:center;">
-        <strong><c:out value="${sessionScope.loginUser.username}"/></strong> 님 환영합니다.
+        <strong><c:out value="${sessionScope.loginUser.username}"/>さん、ようこそ</strong>
       </p>
 
       <form method="post" action="${pageContext.request.contextPath}/logout" style="text-align:center;">
             <c:if test="${not empty _csrf}">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </c:if>
-         <button class="logout-button"  type="submit">로그아웃</button>
+         <button class="logout-button"  type="submit">ログアウト</button>
       </form>
 
       <ul>
@@ -51,7 +51,7 @@
   </c:choose>
     <c:if test="${not empty param.error}">
      <script>
-       alert("아이디 또는 비밀번호를 확인해 주세요.");
+       alert("IDまたはパスワードをご確認ください。");
      </script>
     </c:if>
 </div>

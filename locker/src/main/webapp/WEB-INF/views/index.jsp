@@ -12,16 +12,15 @@
 </head>
 <body>
   <main class="page">
-    <!-- 상단: 로그인 + 공지 -->
     <section class="top-grid">
       <div class="card login-panel">
-      <h3 style="margin:0 0 8px; text-align:center;">로그인</h3>
+      <h3 style="margin:0 0 8px; text-align:center;">ログイン</h3>
         <%@ include file="/WEB-INF/views/index-login.jspf" %>
       </div>
 
       <div class="card notice-panel">
         <div class="notice-header">
-          <h3 style="margin:0; text-align:center;" >공지사항</h3>
+          <h3 style="margin:0; text-align:center;" >お知らせ</h3>
         </div>
         <div class="notice-body">
           <%@ include file="/WEB-INF/views/index-notices.jspf" %>
