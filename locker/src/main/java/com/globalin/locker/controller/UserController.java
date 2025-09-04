@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Controller
 @RequestMapping("/user")
@@ -38,7 +40,7 @@ public class UserController {
 
     // GET: 가입 폼 화면
     @GetMapping("/register")
-    public String showForm() {
+    public String showRegisterForm() {
         return "user/signup";
     }
 
@@ -72,5 +74,55 @@ public class UserController {
         }
     }
 
+    @GetMapping("/edit")
+    public String showEditForm(HttpSession session, Model model) {
 
+        Account loginUser = (Account) session.getAttribute("loginUser"); // 로그인 시 저장한 세션 키
+        if (loginUser == null) {
+            return "redirect:/";
+        }
+        // 세션 객체 대신 DB에서 최신 데이터 재조회
+        Account fresh = accountService.getByUsername(loginUser.getUsername());
+        model.addAttribute("account", fresh);
+        return "user/useredit";
+    }
+
+    @PostMapping("/edit")
+    public String accountUpdate(@RequestParam(required = false) String password,
+                       @RequestParam String email,
+                       @RequestParam String phoneNumber,
+                       HttpSession session,
+                       RedirectAttributes ra) {
+
+        // 1) 인증 확인
+        Account loginUser = (Account) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            ra.addFlashAttribute("errorMessage", "ログインしてください。");
+            return "redirect:/";
+        }
+
+        // 2) 최신 데이터 재조회(세션 객체 직접 수정 대신 DB 기준)
+        Account fresh = accountService.getByUsername(loginUser.getUsername());
+        if (fresh == null) {
+            ra.addFlashAttribute("errorMessage", "ユーザーが見つかりません。");
+            return "redirect:/";
+        }
+
+        // 3) 제출된 필드만 갱신 (role/isActive는 변경 금지)
+        fresh.setEmail(email);
+        fresh.setPhoneNumber(phoneNumber);
+        if (password != null && !password.isBlank()) {
+            // 수업용: 평문 저장 가능하나, 실제는 BCrypt 등으로 해시 권장
+            fresh.setPassword(password);
+        }
+
+        // 4) 저장 및 결과 처리
+        int rows = accountService.updateAccount(fresh); // 서비스에 업데이트 메서드 구현 필요
+        if (rows > 0) {
+            ra.addFlashAttribute("successMessage", "更新が完了しました。");
+        } else {
+            ra.addFlashAttribute("errorMessage", "更新に失敗しました。");
+        }
+        return "redirect:/";
+    }
 }
