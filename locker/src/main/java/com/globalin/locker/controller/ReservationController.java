@@ -19,7 +19,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 @Controller
@@ -107,6 +110,30 @@ public class ReservationController {
 
     // 4. 내 예약 목록 (my_reservations.jsp)
     @GetMapping("/my_reservations")
+    public String myReservations(@RequestParam Long userId, @RequestParam(required = false) Integer days, Model model) {
+        List<Rental> myList = rentalService.getRentalsByUserId(userId); // 로그인 유저 기준
+
+        // 각 Rental마다 계산된 반납일 담기
+        List<Map<String, Object>> reservationInfo = myList.stream().map(r -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("rental", r);
+            if (days != null && r.getCreatedAt() != null) {
+                LocalDateTime rentalDate = r.getCreatedAt().toLocalDateTime();
+                LocalDateTime returnDate = rentalDate.plusDays(days);
+                String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
+                map.put("formattedReturnDate", formattedReturnDate);
+            } else {
+                map.put("formattedReturnDate", "정보 없음");
+            }
+            return map;
+        }).collect(Collectors.toList());
+
+        model.addAttribute("reservations", reservationInfo);
+
+        return "reservation/my_reservations";
+    }
+    /*
+    @GetMapping("/my_reservations")
     public String myReservations(@RequestParam Long lockerCode, Model model, @RequestParam int days, @RequestParam Long userId) {
         List<Rental> myList = rentalService.getRentalsByUserId(userId); // 로그인 유저 기준
         model.addAttribute("reservations", myList);
@@ -134,9 +161,10 @@ public class ReservationController {
         }
         model.addAttribute("availableDates", availableDates);
         */
+    /*
         return "reservation/my_reservations";
     }
-
+*/
     // 5. 예약 취소
     @PostMapping("/lockers/{lockerCode}/cancel")
     public String cancel(@PathVariable Long lockerCode,
