@@ -22,7 +22,7 @@
                 <span class="notice-id">#<c:out value="${a.id}" /></span>
                 <span class="notice-title">
                   <c:url var="detailUrl" value="/user/notices/${a.id}"/>
-                  <a href="${pageContext.request.contextPath}${detailUrl}">
+                  <a href="${pageContext.request.contextPath}${detailUrl}?page=${page}">
                     <c:out value="${a.title}" />
                   </a>
                 </span>

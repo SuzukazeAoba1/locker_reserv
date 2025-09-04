@@ -22,6 +22,7 @@ public class UserController {
 
     @GetMapping("/notices/{id}")
     public String noticesEditForm(@PathVariable Long id,
+                                  @RequestParam("page") String page,
                                   @RequestParam(required = false) String back,
                                   Model model) {
         Notice notice = noticeService.getNoticeById(id);
@@ -29,6 +30,7 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Notice not found");
         }
         model.addAttribute("notice", notice);
+        model.addAttribute("page", page);
         model.addAttribute("backUrl", (back != null && !back.isBlank()) ? back : "/");
         return "user/notices";
     }

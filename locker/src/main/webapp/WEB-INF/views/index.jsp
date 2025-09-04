@@ -9,12 +9,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <c:url value="/resources/css/index.css" var="indexCss"/>
   <link rel="stylesheet" href="${indexCss}" />
+  <style>
+  * {
+      font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic Pro', 'Yu Gothic', 'Meiryo', sans-serif;
+      font-weight: 500;
+  }
+  </style>
 </head>
 <body>
   <main class="page">
     <section class="top-grid">
       <div class="card login-panel">
-      <h3 style="margin:0 0 8px; text-align:center;">ログイン</h3>
         <%@ include file="/WEB-INF/views/index-login.jspf" %>
       </div>
 

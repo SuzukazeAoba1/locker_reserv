@@ -33,17 +33,16 @@
 
     <!-- Read: 단건 (PK) -->
     <select id="selectById" parameterType="long" resultMap="NoticeResultMap">
-        SELECT <include refid="Notice_Columns"/>
-        FROM NOTICES
-        WHERE ID = #{id}
-    </select>
-
-    <!-- (선택) 작성자별 목록 -->
-    <select id="selectByAuthorId" parameterType="long" resultMap="NoticeResultMap">
-        SELECT <include refid="Notice_Columns"/>
-        FROM NOTICES
-        WHERE AUTHOR_ID = #{authorId}
-        ORDER BY ID DESC
+        SELECT
+        n.ID,
+        n.TITLE,
+        n.CONTENT,
+        n.AUTHOR_ID,
+        n.CREATED_AT,
+        a.USERNAME AS AUTHOR_USERNAME
+        FROM NOTICES n
+        LEFT JOIN ACCOUNTS a ON a.ID = n.AUTHOR_ID
+        WHERE n.ID = #{id}
     </select>
 
     <!-- 페이징 (Oracle 12c+) -->
@@ -59,6 +58,14 @@
         LEFT JOIN ACCOUNTS a ON a.ID = n.AUTHOR_ID
         ORDER BY n.ID DESC
         OFFSET #{offset} ROWS FETCH NEXT #{limit} ROWS ONLY
+    </select>
+
+    <!-- (선택) 작성자별 목록 -->
+    <select id="selectByAuthorId" parameterType="long" resultMap="NoticeResultMap">
+        SELECT <include refid="Notice_Columns"/>
+        FROM NOTICES
+        WHERE AUTHOR_ID = #{authorId}
+        ORDER BY ID DESC
     </select>
 
     <!-- Create: IDENTITY + DEFAULT CURRENT_TIMESTAMP 사용 -->

@@ -1,3 +1,13 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400..600&display=optional" rel="stylesheet">
+
+* {
+    font-size-adjust: 0.5; /* 크기 차이 최소화 */
+    line-height: 1.4;      /* 행간 고정 */
+    box-sizing: border-box; /* 박스 모델 안정화 */
+}
+
 :root{
   /* 페이지 고정값 */
   --page-max-w:1200px; --page-max-h:900px;
@@ -179,22 +189,20 @@ body{
 .notice-list .notice-more{text-align:right; margin-top:8px}
 
 /* 로그인 패널(폼) – 레이아웃값 유지 */
-.panel{width:360px; height:281px; overflow:auto}
-.panel form[action$="/login"]{display:flex; flex-direction:column; height:100%}
+.panel{width:360px; height:321px; overflow:auto}
+.panel form[action$="/login"]{display:flex; flex-direction:column;}
 .row{margin:8px 0}
 .label{display:block; font-size:14px; margin-bottom:4px}
 .input{font-size:24px; width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box}
 .login-form{
-  display:flex;
+  flex: 0 0 auto;
   flex-direction:column;
-  min-height:100%;           /* 레이아웃에 따라 100vh 사용 가능 */
 }
 .login-form .center{
-  flex:1;
-  display:flex;
   align-items:center;
   justify-content:center;
 }
+
 .center{text-align:center}
 .right{text-align:right}
 .error{

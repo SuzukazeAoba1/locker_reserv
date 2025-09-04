@@ -47,7 +47,7 @@ public class IndexController {
         model.addAttribute("pageBlock", pageBlock);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
-
+        model.addAttribute("page", page);
 
         return "index";
     }
