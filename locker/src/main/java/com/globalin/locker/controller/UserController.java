@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping("/notices/{id}")
     public String noticesEditForm(@PathVariable Long id,
-                                  @RequestParam("page") String page,
+                                  @RequestParam("page") int page,
                                   @RequestParam(required = false) String back,
                                   Model model) {
         Notice notice = noticeService.getNoticeById(id);

@@ -53,7 +53,8 @@ public class IndexController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String loginId,
+    public String login(@RequestParam int page,
+                        @RequestParam String loginId,
                         @RequestParam String password,
                         HttpSession session,
                         RedirectAttributes ra){
@@ -61,11 +62,13 @@ public class IndexController {
         Account account = accountService.getByUsername(loginId);
 
         if(account == null || !password.equals(account.getPassword())){
+            ra.addAttribute("page", page);
             ra.addAttribute("error", "1"); // 쿼리스트링에 error=1
             return "redirect:/";           // index.jsp로
         }
 
         // 성공 → 세션 저장 후 메인으로
+        ra.addAttribute("page", page);
         session.setAttribute("loginUser", account);
         session.setMaxInactiveInterval(60 * 30); // 30분
         return "redirect:/";
@@ -73,7 +76,10 @@ public class IndexController {
     }
 
     @PostMapping("/logout")
-    public String logout(HttpSession session) {
+    public String logout(@RequestParam int page,
+                         Model model,
+                         HttpSession session) {
+        model.addAttribute("page", page);
         session.invalidate();
         return "redirect:/";
     }

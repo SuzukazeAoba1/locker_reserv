@@ -136,7 +136,7 @@
       </div>
 
       <!-- 게시글 내용 -->
-      <div class="post-content"> <c:out value="${notice.content}"/></div>
+      <div class="post-content"><c:out value="${notice.content}"/></div>
 
       <!-- 액션 버튼 -->
       <div class="actions">

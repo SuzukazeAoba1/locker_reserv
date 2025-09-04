@@ -6,7 +6,7 @@
 
   <c:choose>
     <c:when test="${empty sessionScope.loginUser}">
-      <form class="login-form" method="post" action="${pageContext.request.contextPath}/login">
+      <form class="login-form" method="post" action="${pageContext.request.contextPath}/login?page=${page}">
         <div class="row">
           <label class="label" for="loginId">ID</label>
           <input class="input" type="text" id="loginId" name="loginId" required autocomplete="username"/>
@@ -32,7 +32,7 @@
         <strong><c:out value="${sessionScope.loginUser.username}"/>さん、ようこそ</strong>
       </p>
 
-      <form method="post" action="${pageContext.request.contextPath}/logout" style="text-align:center;">
+      <form method="post" action="${pageContext.request.contextPath}/logout?page=${page}" style="text-align:center;">
             <c:if test="${not empty _csrf}">
               <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </c:if>
