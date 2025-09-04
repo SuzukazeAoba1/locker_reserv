@@ -146,14 +146,13 @@ body{
   background:#2d6cdf;color:#fff;border:0;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.login-button:hover{background:#1f4ca0}
 
 .login-button{
   display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s;
-  width:200px;height:64px;line-height:64px;text-align:center;
+  width:140px;height:64px;line-height:64px;text-align:center;
   background:#2d6cdf;color:#fff;border:0;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  margin-bottom: 12px; margin-top: 20px;
+  margin: 12px; margin-top: 20px;vertical-align: middle;
 }
 
 .logout-button{

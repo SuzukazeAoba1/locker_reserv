@@ -17,6 +17,11 @@
   </style>
 </head>
 <body>
+<c:if test="${not empty successMessage}">
+  <script>
+    alert("<c:out value='${successMessage}'/>");
+  </script>
+</c:if>
   <main class="page">
     <section class="top-grid">
       <div class="card login-panel">
