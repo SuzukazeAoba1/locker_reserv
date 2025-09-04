@@ -98,7 +98,7 @@
         </if>
     </update>
 
-    <!-- 예약 생성: STATUS=1(예약됨), 시작=지금, 종료=+7일 (RETURNING으로 PK 회수) -->
+    <!-- 예약 생성: STATUS=1(예약됨), 시작=지금, 종료=+사용자의 버튼 클릭 값 (RETURNING으로 PK 회수), <bind>와 daysStr 변경시킴. -->
     <insert id="insertReservation" parameterType="map">
         INSERT INTO RENTALS (
         USER_ID, LOCKER_CODE, START_TIME, END_TIME, STATUS

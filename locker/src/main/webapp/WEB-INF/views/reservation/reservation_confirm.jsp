@@ -40,9 +40,9 @@
                   <p>サイズ: ${capacityLabel}</p>
                   <p>価格: ${locker.price}</p>
 
-
-          <p>예약일：<fmt:formatDate value="${activeRental.createdAt}" pattern="yyyy/MM/dd HH:mm"/></p>
-          <p>반납일：<fmt:formatDate value="${availableDates}" pattern="yyyy/MM/dd HH:mm"/></p>
+    <h3>예약 정보</h3>
+    <p>開始：<fmt:formatDate value="${activeRental.startTime}" pattern="yyyy/MM/dd HH:mm"/></p>
+    <p>終了：<fmt:formatDate value="${activeRental.endTime}" pattern="yyyy/MM/dd HH:mm"/></p>
         <hr class="divider"/>
 
           <div style="text-align:left; margin-top:1rem;">

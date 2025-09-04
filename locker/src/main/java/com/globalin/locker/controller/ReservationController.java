@@ -17,6 +17,7 @@ import org.springframework.web.util.UriUtils;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,8 +74,14 @@ public class ReservationController {
         Locker locker = lockerService.getLockersByCode(lockerCode);
         try {
             Long rid = rentalService.reserveOrCancel(lockerCode, userId, RentalService.Action.RESERVE);
+            Rental active = rentalService.findLatestActiveByLocker(lockerCode);
+            LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
+            LocalDateTime returnDate = rentalDate.plusDays(days);
+            String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
+
             ra.addFlashAttribute("msg", "予約が完了しました（rentalId=" + rid + "）");
             ra.addFlashAttribute("rentalId", rid);
+            ra.addFlashAttribute("formattedReturnDate", formattedReturnDate);
         } catch (Exception e) {
             ra.addFlashAttribute("error", "予約に失敗しました： " + e.getMessage());
         }
@@ -90,6 +97,7 @@ public class ReservationController {
         if (locker.getStatus() != null && (locker.getStatus() == 2L || locker.getStatus() == 3L)) {
             Rental active = rentalService.findLatestActiveByLocker(lockerCode); // 주입 필요
             model.addAttribute("activeRental", active);
+
         }
         model.addAttribute("locker",locker);
         model.addAttribute("lockerCode", lockerCode);
@@ -99,15 +107,33 @@ public class ReservationController {
 
     // 4. 내 예약 목록 (my_reservations.jsp)
     @GetMapping("/my_reservations")
-    public String myReservations(Model model, @RequestParam Long userId) {
+    public String myReservations(@RequestParam Long lockerCode, Model model, @RequestParam int days, @RequestParam Long userId) {
         List<Rental> myList = rentalService.getRentalsByUserId(userId); // 로그인 유저 기준
         model.addAttribute("reservations", myList);
-        List<LocalDateTime> availableDates = new ArrayList<>();
+        //List<LocalDateTime> availableDates = new ArrayList<>();
+        Rental active = rentalService.findLatestActiveByLocker(lockerCode);
+        if (active != null) {
+            LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
+            LocalDateTime returnDate = rentalDate.plusDays(days);
+            String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
+            model.addAttribute("formattedReturnDate", formattedReturnDate);
+        } else {
+            model.addAttribute("formattedReturnDate", "정보 없음");
+        }
+        /*
+        LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
+        LocalDateTime returnDate = rentalDate.plusDays(days);
+        String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
+        model.addAttribute("formattedReturnDate", formattedReturnDate);
+        */
+
+/*
         LocalDateTime today = LocalDateTime.now();
         for (int i = 0; i < 7; i++) {
             availableDates.add(today.plusDays(i));
         }
         model.addAttribute("availableDates", availableDates);
+        */
         return "reservation/my_reservations";
     }
 
@@ -126,4 +152,23 @@ public class ReservationController {
                 UriUtils.encode(location, StandardCharsets.UTF_8);
 
     }
+    //6. 사용 기간 계산
+    /*
+    @PostMapping("/lockers/{lockerCode}/countDate")
+    public String countDate(@PathVariable Long lockerCode,@RequestParam int days, Model model ){
+        Locker locker = lockerService.getLockersByCode(lockerCode);
+        if (locker.getStatus() != null && (locker.getStatus() == 2L || locker.getStatus() == 3L)) {
+            Rental active = rentalService.findLatestActiveByLocker(lockerCode); // 주입 필요
+            model.addAttribute("activeRental", active);
+            LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
+            LocalDateTime returnDate= rentalDate.plusDays(days);
+            String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
+            model.addAttribute("formattedReturnDate", formattedReturnDate);
+
+            return "reservation/my_reservation";
+        }
+        return "";
+    }
+*/
+
 }
