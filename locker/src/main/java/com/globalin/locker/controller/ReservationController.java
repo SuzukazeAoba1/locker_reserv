@@ -1,6 +1,7 @@
 package com.globalin.locker.controller;
 
 
+import com.globalin.locker.domain.Account;
 import com.globalin.locker.domain.Locker;
 import com.globalin.locker.domain.Rental;
 import com.globalin.locker.service.AccountService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriUtils;
 
+import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -109,8 +111,16 @@ public class ReservationController {
     }
 
     // 4. 내 예약 목록 (my_reservations.jsp)
+
     @GetMapping("/my_reservations")
-    public String myReservations(@RequestParam Long userId, @RequestParam(required = false) Integer days, Model model) {
+    public String myReservations(HttpSession session, @RequestParam(required = false) Integer days, Model model) {
+        Account loginUser = (Account) session.getAttribute("loginUser");
+        if (loginUser == null) {
+            throw new IllegalStateException("로그인 정보 없음");
+        }
+
+        Long userId = loginUser.getId(); // 여기서 진짜 로그인한 유저의 ID 꺼냄
+        System.out.println("userId from session: " + userId);
         List<Rental> myList = rentalService.getRentalsByUserId(userId); // 로그인 유저 기준
 
         // 각 Rental마다 계산된 반납일 담기
@@ -129,7 +139,7 @@ public class ReservationController {
         }).collect(Collectors.toList());
 
         model.addAttribute("reservations", reservationInfo);
-
+        System.out.println("reservationInfo size: " +reservationInfo.size());
         return "reservation/my_reservations";
     }
     /*
