@@ -23,42 +23,33 @@
     <p>현재 예약한 라커가 없습니다.</p>
     </c:if>
 
+<p>${userId}님의 라커 이용 정보 (${days}일 기준)</p>
 
+<c:forEach var="res" items="${reservations}">
+    <c:set var="rental" value="${res.rental}" />
+    <c:set var="locker" value="${res.locker}" />
 
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+        <p>번호: ${rental.lockerCode}</p>
+        <p>설치 위치: ${locker.location}</p>
 
-           <p>${userId}님의 라커 이용 정보 입니다.</p>
-           <c:forEach var="res" items="${reservations}">
-           <c:set var="rental" value="${res.rental}" />
-           <c:set var="locker" value="${rental.locker}" />
-               <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-                   <p>番号: ${res.rental.lockerCode}</p>
-                   <p>設置場所: ${res.locker.location}</p>
-                   <c:set var="colLetter" value="${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', locker.x-1, locker.x)}"/>
-                              <c:choose>
-                                <c:when test="${locker.capacity == 1}"><c:set var="capacityLabel" value="小"/></c:when>
-                                <c:when test="${locker.capacity == 2}"><c:set var="capacityLabel" value="中"/></c:when>
-                                <c:when test="${locker.capacity == 3}"><c:set var="capacityLabel" value="大"/></c:when>
-                                <c:otherwise><c:set var="capacityLabel" value="不明"/></c:otherwise>
-                              </c:choose>
-                   <p>座標: ${res.colLetter}列 / ${res.locker.y}階</p>
-                   <p>サイズ: ${res.locker.capacityLabel}</p>
-                   <p>価格: ${res.locker.price}</p>
-                   <p>대여일: <fmt:formatDate value="${res.rental.createdAt}" pattern="yyyy/MM/dd HH:mm"/></p>
-                   <p>반납일: ${res.formattedReturnDate}</p>
-                   <p>상태: ${res.rental.status}</p>
+        <c:set var="colLetter" value="${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', locker.x-1, locker.x)}"/>
+        <c:choose>
+            <c:when test="${locker.capacity == 1}"><c:set var="capacityLabel" value="小"/></c:when>
+            <c:when test="${locker.capacity == 2}"><c:set var="capacityLabel" value="中"/></c:when>
+            <c:when test="${locker.capacity == 3}"><c:set var="capacityLabel" value="大"/></c:when>
+            <c:otherwise><c:set var="capacityLabel" value="不明"/></c:otherwise>
+        </c:choose>
 
-               </div>
-           </c:forEach>
-           <h3>예약 정보</h3>
-                   <p>番号: ${locker.lockerCode}</p>
-                   <p>設置場所: ${locker.location}</p>
-                   <p>座標: ${colLetter}列 / ${locker.y}階</p>
-                   <p>サイズ: ${capacityLabel}</p>
-                   <p>価格: ${locker.price}</p>
+        <p>좌표: ${colLetter}열 / ${locker.y}층</p>
+        <p>크기: ${capacityLabel}</p>
+        <p>가격: ${locker.price}</p>
+        <p>대여일: <fmt:formatDate value="${rental.createdAt}" pattern="yyyy/MM/dd HH:mm"/></p>
+        <p>반납일: ${res.formattedReturnDate}</p>
+        <p>상태: ${rental.status}</p>
+    </div>
+</c:forEach>
 
-
-     <p>開始：<fmt:formatDate value="${activeRental.startTime}" pattern="yyyy/MM/dd HH:mm"/></p>
-     <p>終了：<fmt:formatDate value="${activeRental.endTime}" pattern="yyyy/MM/dd HH:mm"/></p>
 
 
     <!-- 취소 버튼 -->

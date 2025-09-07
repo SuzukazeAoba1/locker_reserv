@@ -71,25 +71,31 @@ public class ReservationController {
     // 3. 예약 처리 후 확인 페이지 (reservation_confirm.jsp)
     @PostMapping("/lockers/{lockerCode}/reserve")
     public String reserve(@PathVariable Long lockerCode,
-                          @RequestParam Long userId,
                           @RequestParam int days,
+                          HttpSession session,
                           RedirectAttributes ra,
                           @RequestParam(required = false) String location) {
 
-        Locker locker = lockerService.getLockersByCode(lockerCode);
+        Account loginUser = (Account) session.getAttribute("loginUser");
+        if (loginUser == null) throw new IllegalStateException("로그인 정보 없음");
+
+        Long userId = loginUser.getId(); // 세션에서 직접 가져옴
+
         try {
-            Long rid = rentalService.reserveOrCancel(lockerCode, userId, RentalService.Action.RESERVE);
+            Long rid = rentalService.reserveOrCancel(lockerCode, userId, RentalService.Action.RESERVE, days);
+
             Rental active = rentalService.findLatestActiveByLocker(lockerCode);
             LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
             LocalDateTime returnDate = rentalDate.plusDays(days);
             String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
 
-            ra.addFlashAttribute("msg", "予約が完了しました（rentalId=" + rid + "）");
+            ra.addFlashAttribute("msg", "예약이 완료되었습니다 (rentalId=" + rid + ")");
             ra.addFlashAttribute("rentalId", rid);
             ra.addFlashAttribute("formattedReturnDate", formattedReturnDate);
         } catch (Exception e) {
-            ra.addFlashAttribute("error", "予約に失敗しました： " + e.getMessage());
+            ra.addFlashAttribute("error", "예약에 실패했습니다: " + e.getMessage());
         }
+
         return "redirect:/reservation/reservation_confirm/" + lockerCode + "?location=" +
                 UriUtils.encode(location, StandardCharsets.UTF_8);
     }
@@ -111,37 +117,55 @@ public class ReservationController {
     }
 
     // 4. 내 예약 목록 (my_reservations.jsp)
-
     @GetMapping("/my_reservations")
-    public String myReservations(HttpSession session, @RequestParam(required = false) Integer days, Model model) {
+    public String myReservations(HttpSession session, Model model) {
         Account loginUser = (Account) session.getAttribute("loginUser");
         if (loginUser == null) {
             throw new IllegalStateException("로그인 정보 없음");
         }
 
-        Long userId = loginUser.getId(); // 여기서 진짜 로그인한 유저의 ID 꺼냄
-        System.out.println("userId from session: " + userId);
-        List<Rental> myList = rentalService.getRentalsByUserId(userId); // 로그인 유저 기준
+        Long userId = loginUser.getId();
+        System.out.println("로그인 유저 ID: " + userId);
 
-        // 각 Rental마다 계산된 반납일 담기
+        // 1. 유저의 모든 Rental 조회
+        List<Rental> myList = rentalService.getRentalsByUserId(userId);
+        System.out.println("myList size: " + myList.size());
+
+        // 2. Rental마다 Locker 정보와 반납일 계산
         List<Map<String, Object>> reservationInfo = myList.stream().map(r -> {
             Map<String, Object> map = new HashMap<>();
             map.put("rental", r);
-            if (days != null && r.getCreatedAt() != null) {
+
+            // Locker 정보 가져오기
+            Locker locker = lockerService.getLockersByCode(r.getLockerCode());
+            map.put("locker", locker);
+
+            // 대여일 / 반납일 계산
+            if (r.getCreatedAt() != null) {
                 LocalDateTime rentalDate = r.getCreatedAt().toLocalDateTime();
+                int days = 7; // 기본 7일, 필요하면 Rental에 저장된 days 가져올 수도 있음
                 LocalDateTime returnDate = rentalDate.plusDays(days);
-                String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
-                map.put("formattedReturnDate", formattedReturnDate);
+
+                map.put("formattedStart", rentalDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
+                map.put("formattedEnd", returnDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")));
             } else {
-                map.put("formattedReturnDate", "정보 없음");
+                map.put("formattedStart", "정보 없음");
+                map.put("formattedEnd", "정보 없음");
             }
+
             return map;
         }).collect(Collectors.toList());
+        reservationInfo.forEach(m -> {
+            System.out.println("Rental ID: " + ((Rental)m.get("rental")).getId());
+            System.out.println("Locker: " + ((Locker)m.get("locker")));
+            System.out.println("Start: " + m.get("formattedStart"));
+            System.out.println("End: " + m.get("formattedEnd"));
+        });
 
         model.addAttribute("reservations", reservationInfo);
-        System.out.println("reservationInfo size: " +reservationInfo.size());
         return "reservation/my_reservations";
     }
+
     /*
     @GetMapping("/my_reservations")
     public String myReservations(@RequestParam Long lockerCode, Model model, @RequestParam int days, @RequestParam Long userId) {
@@ -179,9 +203,10 @@ public class ReservationController {
     @PostMapping("/lockers/{lockerCode}/cancel")
     public String cancel(@PathVariable Long lockerCode,
                          @RequestParam String location,
+                         @RequestParam int days,
                          RedirectAttributes ra) {
         try {
-            Long rid = rentalService.reserveOrCancel(lockerCode, null, RentalService.Action.CANCEL);
+            Long rid = rentalService.reserveOrCancel(lockerCode, null, RentalService.Action.CANCEL, days);
             ra.addFlashAttribute("msg", "キャンセル／終了が完了しました（rentalId=" + rid + "）");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "キャンセル／終了に失敗しました： " + e.getMessage());

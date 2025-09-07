@@ -104,7 +104,9 @@
         USER_ID, LOCKER_CODE, START_TIME, END_TIME, STATUS
         ) VALUES (
         #{userId}, #{lockerCode},
-        SYSTIMESTAMP, SYSTIMESTAMP + INTERVAL '7' DAY, 1
+        SYSTIMESTAMP,
+        SYSTIMESTAMP + NUMTODSINTERVAL(#{days}, 'DAY'),
+        1
         )
         <selectKey keyProperty="id" order="AFTER" resultType="long">
             SELECT "USER1"."ISEQ$$_112242".CURRVAL FROM DUAL

@@ -26,7 +26,7 @@ public class RentalService {
     public enum Action { RESERVE, START, CANCEL }
 
     @Transactional
-    public Long reserveOrCancel(Long lockerCode, Long userId, Action action) {
+    public Long reserveOrCancel(Long lockerCode, Long userId, Action action, int days) {
         switch (action) {
             case RESERVE: {
                 // ✅ userId 선검증: 비어있으면 아예 진행 안 함
@@ -43,7 +43,18 @@ public class RentalService {
                 if (locked == 0) {
                     throw new IllegalStateException("予約不可：利用可能（1）ではないか、競合が発生しました。");
                 }
+                Map<String, Object> p = new HashMap<>();
+                p.put("userId", userId);
+                p.put("lockerCode", lockerCode);
+                p.put("days", days);
 
+                rentalMapper.insertReservation(p);
+
+                Object idObj = p.get("id");
+                Long newId = (idObj == null) ? null : ((Number) idObj).longValue();
+                if (newId == null) throw new IllegalStateException("예약 생성 실패");
+                return newId;
+                /*
                 Map<String, Object> p = new HashMap<>();
                 p.put("userId", userId);
                 p.put("lockerCode", lockerCode);
@@ -53,6 +64,7 @@ public class RentalService {
                 Long newId = (idObj == null) ? null : ((Number) idObj).longValue();
                 if (newId == null) throw new IllegalStateException("予約の作成に失敗しました。");
                 return newId;
+                 */
             }
 
             case START: {
