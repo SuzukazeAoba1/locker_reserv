@@ -112,18 +112,23 @@
 <body>
 
 <div class="info">
-
 <div style="text-align:left; margin-top:1rem;">
+<form action="${pageContext.request.contextPath}/" method="get">
+<a href="${pageContext.request.contextPath}/reservation/lockers?location=${location}">
+    <button type="button" class="btn back">一覧に戻る</button>
+</a>
+</form>
+</div>
+<!--<div style="text-align:left; margin-top:1rem;">
   <form action="${pageContext.request.contextPath}/" method="get">
     <button type="submit"
             style="width:200px; height:50px; margin:10px; font-size:20px;">
       ルートへ戻る
     </button>
   </form>
-</div>
+</div>-->
 
-    <hr class="divider"/>
-    <h2>라커 상세 정보</h2>
+    <h2>ロッカー詳細情報</h2>
     <c:set var="colLetter" value="${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', locker.x-1, locker.x)}"/>
           <c:choose>
             <c:when test="${locker.capacity == 1}"><c:set var="capacityLabel" value="小"/></c:when>
@@ -198,32 +203,29 @@
     <input type="hidden" name="userId" value="1" /> <!-- 로그인 유저 ID로 교체 -->
     <input type="hidden" name="location" value="${location}" />
 
-    <label for="days">예약 기간 선택</label><br>
-    <input type='radio' name="days" value="1"/>1일
-    <input type='radio' name="days" value="3"/>3일
-    <input type='radio' name="days" value="7"/>7일
+    <label for="days">予約期間を選択</label><br>
+    <input type='radio' name="days" value="1"/>1日
+    <input type='radio' name="days" value="3"/>3日
+    <input type='radio' name="days" value="7"/>7日
     <br>
 
     <!--<select name="days" id="days" required>
-        <option value="1">1일</option>
-        <option value="3">3일</option>
-        <option value="7">7일</option>
+        <option value="1">1日</option>
+        <option value="3">3日</option>
+        <option value="7">7日</option>
     </select>
     -->
 <hr class="divider"/>
-    <button type="submit" class="btn reserve">예약하기</button>
+    <button type="submit" class="btn reserve">予約する</button>
 </form>
 
 
 <!-- 취소 버튼 -->
 <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel" method="post" style="display:inline;">
     <input type="hidden" name="location" value="${location}" />
-    <button type="submit" class="btn cancel">예약 취소</button>
+    <button type="submit" class="btn cancel">予約取り消し</button>
 </form>
 
-<!-- 뒤로가기 버튼
-<a href="${pageContext.request.contextPath}/reservation/lockers?location=${location}">
-    <button type="button" class="btn back">목록으로 돌아가기</button>
-</a>-->
+
 </body>
 </html>

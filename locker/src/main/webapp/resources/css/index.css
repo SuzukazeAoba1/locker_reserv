@@ -127,7 +127,7 @@ body{
 .notice-panel .notice-body{flex:1; overflow-y:auto}
 
 /* 메뉴(버튼 모음) */
-.menu{margin:16px 0; display:flex; flex-wrap:wrap; gap:10px}
+.menu{margin:16px 0; display:flex; flex-wrap:wrap; gap:10px; justify-content: flex-start;}
 
 /* 공통 베이스(필요 시) */
 .btn{display:inline-block;border-radius:6px;cursor:pointer;text-decoration:none;font-weight:600;transition:background .2s}
@@ -152,7 +152,7 @@ body{
   width:140px;height:64px;line-height:64px;text-align:center;
   background:#2d6cdf;color:#fff;border:0;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  margin: 12px; margin-top: 20px;vertical-align: middle;
+  margin: 0px; margin-top: 20px;vertical-align: middle;
 }
 
 .logout-button{

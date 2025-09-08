@@ -165,45 +165,11 @@ public class ReservationController {
         model.addAttribute("reservations", reservationInfo);
         return "reservation/my_reservations";
     }
-
-    /*
-    @GetMapping("/my_reservations")
-    public String myReservations(@RequestParam Long lockerCode, Model model, @RequestParam int days, @RequestParam Long userId) {
-        List<Rental> myList = rentalService.getRentalsByUserId(userId); // 로그인 유저 기준
-        model.addAttribute("reservations", myList);
-        //List<LocalDateTime> availableDates = new ArrayList<>();
-        Rental active = rentalService.findLatestActiveByLocker(lockerCode);
-        if (active != null) {
-            LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
-            LocalDateTime returnDate = rentalDate.plusDays(days);
-            String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
-            model.addAttribute("formattedReturnDate", formattedReturnDate);
-        } else {
-            model.addAttribute("formattedReturnDate", "정보 없음");
-        }
-        /*
-        LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
-        LocalDateTime returnDate = rentalDate.plusDays(days);
-        String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
-        model.addAttribute("formattedReturnDate", formattedReturnDate);
-        */
-
-/*
-        LocalDateTime today = LocalDateTime.now();
-        for (int i = 0; i < 7; i++) {
-            availableDates.add(today.plusDays(i));
-        }
-        model.addAttribute("availableDates", availableDates);
-        */
-    /*
-        return "reservation/my_reservations";
-    }
-*/
     // 5. 예약 취소
     @PostMapping("/lockers/{lockerCode}/cancel")
     public String cancel(@PathVariable Long lockerCode,
                          @RequestParam String location,
-                         @RequestParam int days,
+                         @RequestParam(defaultValue = "0") int days,
                          RedirectAttributes ra) {
         try {
             Long rid = rentalService.reserveOrCancel(lockerCode, null, RentalService.Action.CANCEL, days);
@@ -215,23 +181,5 @@ public class ReservationController {
                 UriUtils.encode(location, StandardCharsets.UTF_8);
 
     }
-    //6. 사용 기간 계산
-    /*
-    @PostMapping("/lockers/{lockerCode}/countDate")
-    public String countDate(@PathVariable Long lockerCode,@RequestParam int days, Model model ){
-        Locker locker = lockerService.getLockersByCode(lockerCode);
-        if (locker.getStatus() != null && (locker.getStatus() == 2L || locker.getStatus() == 3L)) {
-            Rental active = rentalService.findLatestActiveByLocker(lockerCode); // 주입 필요
-            model.addAttribute("activeRental", active);
-            LocalDateTime rentalDate = active.getCreatedAt().toLocalDateTime();
-            LocalDateTime returnDate= rentalDate.plusDays(days);
-            String formattedReturnDate = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm").format(returnDate);
-            model.addAttribute("formattedReturnDate", formattedReturnDate);
-
-            return "reservation/my_reservation";
-        }
-        return "";
-    }
-*/
 
 }

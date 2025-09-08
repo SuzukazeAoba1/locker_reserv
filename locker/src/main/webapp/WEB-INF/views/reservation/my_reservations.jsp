@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>예약목록</title>
+    <title>予約リスト</title>
 </head>
 <body>
 <c:set var="userId" value="${sessionScope.loginUser.id}" />
@@ -20,18 +20,18 @@
 </div>
 <c:url var="mylocker" value="/reservation/my_reservations"/>
     <c:if test="${empty reservations}">
-    <p>현재 예약한 라커가 없습니다.</p>
+    <p>現在、予約されているロッカーはありません。</p>
     </c:if>
 
-<p>${userId}님의 라커 이용 정보 (${days}일 기준)</p>
+<p>${userId}様のロッカー利用情報</p>
 
 <c:forEach var="res" items="${reservations}">
     <c:set var="rental" value="${res.rental}" />
     <c:set var="locker" value="${res.locker}" />
 
     <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
-        <p>번호: ${rental.lockerCode}</p>
-        <p>설치 위치: ${locker.location}</p>
+        <p>番号: ${rental.lockerCode}</p>
+        <p>設置場所: ${locker.location}</p>
 
         <c:set var="colLetter" value="${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', locker.x-1, locker.x)}"/>
         <c:choose>
@@ -41,12 +41,20 @@
             <c:otherwise><c:set var="capacityLabel" value="不明"/></c:otherwise>
         </c:choose>
 
-        <p>좌표: ${colLetter}열 / ${locker.y}층</p>
-        <p>크기: ${capacityLabel}</p>
-        <p>가격: ${locker.price}</p>
-        <p>대여일: <fmt:formatDate value="${rental.createdAt}" pattern="yyyy/MM/dd HH:mm"/></p>
-        <p>반납일: ${res.formattedReturnDate}</p>
-        <p>상태: ${rental.status}</p>
+        <p>座標: ${colLetter}列 / ${locker.y}階</p>
+        <p>サイズ: ${capacityLabel}</p>
+        <p>価格: ${locker.price}</p>
+        <p>開始: <fmt:formatDate value="${rental.startTime}" pattern="yyyy/MM/dd HH:mm"/></p>
+        <p>終了: <fmt:formatDate value="${rental.endTime}" pattern="yyyy/MM/dd HH:mm"/></p>
+        <p>状態：
+            <c:choose>
+                <c:when test="${rental.status == 1}">予約中</c:when>
+                <c:when test="${rental.status == 2}">使用中</c:when>
+                <c:when test="${rental.status == 3}">使用終了</c:when>
+                <c:when test="${rental.status == 4}">使用終了</c:when>
+                <c:otherwise>不明</c:otherwise>
+            </c:choose>
+        </p>
     </div>
 </c:forEach>
 
@@ -54,8 +62,8 @@
 
     <!-- 취소 버튼 -->
     <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel" method="post" style="display:inline;">
-            <input type="hidden" name="location" value="${reservation.locker.location}" />
-            <button type="submit" class="btn cancel">사용 종료</button>
+        <input type="hidden" name="location" value="${location}" />
+        <button type="submit" class="btn cancel">利用終了</button>
     </form>
 
 </body>

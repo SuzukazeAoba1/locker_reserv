@@ -25,7 +25,7 @@
   </form>
 </div>
 
-<h2>예약 확인</h2>
+<h2>予約確認</h2>
 <c:set var="colLetter" value="${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', locker.x-1, locker.x)}"/>
           <c:choose>
             <c:when test="${locker.capacity == 1}"><c:set var="capacityLabel" value="小"/></c:when>
@@ -40,7 +40,7 @@
                   <p>サイズ: ${capacityLabel}</p>
                   <p>価格: ${locker.price}</p>
 
-    <h3>예약 정보</h3>
+    <h3>予約情報</h3>
     <p>開始：<fmt:formatDate value="${activeRental.startTime}" pattern="yyyy/MM/dd HH:mm"/></p>
     <p>終了：<fmt:formatDate value="${activeRental.endTime}" pattern="yyyy/MM/dd HH:mm"/></p>
         <hr class="divider"/>
@@ -49,7 +49,7 @@
             <form action="${pageContext.request.contextPath}/" method="get">
               <button type="submit"
                       style="width:200px; height:50px; margin:10px; font-size:20px;">
-                확인
+                確認
               </button>
             </form>
           </div>
