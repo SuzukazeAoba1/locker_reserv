@@ -125,11 +125,11 @@ public class ReservationController {
         }
 
         Long userId = loginUser.getId();
-        System.out.println("로그인 유저 ID: " + userId);
+
 
         // 1. 유저의 모든 Rental 조회
         List<Rental> myList = rentalService.getRentalsByUserId(userId);
-        System.out.println("myList size: " + myList.size());
+
 
         // 2. Rental마다 Locker 정보와 반납일 계산
         List<Map<String, Object>> reservationInfo = myList.stream().map(r -> {
@@ -155,13 +155,6 @@ public class ReservationController {
 
             return map;
         }).collect(Collectors.toList());
-        reservationInfo.forEach(m -> {
-            System.out.println("Rental ID: " + ((Rental)m.get("rental")).getId());
-            System.out.println("Locker: " + ((Locker)m.get("locker")));
-            System.out.println("Start: " + m.get("formattedStart"));
-            System.out.println("End: " + m.get("formattedEnd"));
-        });
-
         model.addAttribute("reservations", reservationInfo);
         return "reservation/my_reservations";
     }

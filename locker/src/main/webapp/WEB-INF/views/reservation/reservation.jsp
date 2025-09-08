@@ -110,26 +110,17 @@
     </style>
 </head>
 <body>
-
-<div class="info">
-<div style="text-align:left; margin-top:1rem;">
-<form action="${pageContext.request.contextPath}/" method="get">
-<a href="${pageContext.request.contextPath}/reservation/lockers?location=${location}">
-    <button type="button" class="btn back">一覧に戻る</button>
-</a>
-</form>
-</div>
-<!--<div style="text-align:left; margin-top:1rem;">
-  <form action="${pageContext.request.contextPath}/" method="get">
-    <button type="submit"
-            style="width:200px; height:50px; margin:10px; font-size:20px;">
-      ルートへ戻る
-    </button>
-  </form>
-</div>-->
-
-    <h2>ロッカー詳細情報</h2>
-    <c:set var="colLetter" value="${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', locker.x-1, locker.x)}"/>
+<div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+    <div class="info">
+        <div style="text-align:left; margin-top:1rem;">
+        <form action="${pageContext.request.contextPath}/" method="get">
+            <a href="${pageContext.request.contextPath}/reservation/lockers?location=${location}">
+            <button type="button" class="btn back">一覧に戻る</button>
+            </a>
+        </form>
+        </div>
+        <h2>ロッカー詳細情報</h2>
+        <c:set var="colLetter" value="${fn:substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ', locker.x-1, locker.x)}"/>
           <c:choose>
             <c:when test="${locker.capacity == 1}"><c:set var="capacityLabel" value="小"/></c:when>
             <c:when test="${locker.capacity == 2}"><c:set var="capacityLabel" value="中"/></c:when>
@@ -164,12 +155,10 @@
         <p>サイズ: ${capacityLabel}</p>
         <p>価格: ${locker.price}</p>
         <p>状態: <span class="${statusClass}">${statusLabel}</span></p>
-
-
-</div>
-<div class="side">
+    </div>
+    <div class="side" align="center">
       <c:if test="${locker.status == 2 || locker.status == 3}">
-        <div class="panel">
+        <div class="panel" align="center">
           <h3>予約／利用情報</h3>
           <c:choose>
             <c:when test="${not empty activeRental}">
@@ -196,36 +185,26 @@
         </div>
       </c:if>
     </div>
-  </div><!-- /two-col -->
 
+<hr class="solid"/>
 <!-- 예약 버튼 -->
-<form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/reserve" method="post" style="display:inline;">
-    <input type="hidden" name="userId" value="1" /> <!-- 로그인 유저 ID로 교체 -->
-    <input type="hidden" name="location" value="${location}" />
+    <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/reserve" method="post" style="display:inline;">
+        <input type="hidden" name="userId" value="1" /> <!-- 로그인 유저 ID로 교체 -->
+        <input type="hidden" name="location" value="${location}" />
 
-    <label for="days">予約期間を選択</label><br>
-    <input type='radio' name="days" value="1"/>1日
-    <input type='radio' name="days" value="3"/>3日
-    <input type='radio' name="days" value="7"/>7日
-    <br>
-
-    <!--<select name="days" id="days" required>
-        <option value="1">1日</option>
-        <option value="3">3日</option>
-        <option value="7">7日</option>
-    </select>
-    -->
-<hr class="divider"/>
-    <button type="submit" class="btn reserve">予約する</button>
-</form>
-
-
+        <label for="days">予約期間を選択</label><br>
+        <input type='radio' name="days" value="1"/>1日
+        <input type='radio' name="days" value="3"/>3日
+        <input type='radio' name="days" value="7"/>7日
+        <br>
+        <button type="submit" class="btn reserve">予約する</button>
+    </form>
 <!-- 취소 버튼 -->
-<form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel" method="post" style="display:inline;">
-    <input type="hidden" name="location" value="${location}" />
-    <button type="submit" class="btn cancel">予約取り消し</button>
-</form>
-
+    <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel" method="post" style="display:inline;">
+        <input type="hidden" name="location" value="${location}" />
+        <button type="submit" class="btn cancel">予約取り消し</button>
+    </form>
+</div>
 
 </body>
 </html>
