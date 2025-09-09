@@ -115,7 +115,7 @@
         <div style="text-align:left; margin-top:1rem;">
         <form action="${pageContext.request.contextPath}/" method="get">
             <a href="${pageContext.request.contextPath}/reservation/lockers?location=${location}">
-            <button type="button" class="btn back">一覧に戻る</button>
+            <button type="button" class="btn back" style="width:200px; height:50px; margin:10px; font-size:20px;">一覧に戻る</button>
             </a>
         </form>
         </div>
@@ -193,16 +193,16 @@
         <input type="hidden" name="location" value="${location}" />
 
         <label for="days">予約期間を選択</label><br>
-        <input type='radio' name="days" value="1"/>1日
+        <input type='radio' name="days" value="1" checked="checked"/>1日
         <input type='radio' name="days" value="3"/>3日
         <input type='radio' name="days" value="7"/>7日
         <br>
-        <button type="submit" class="btn reserve">予約する</button>
+        <button type="submit" class="btn reserve" style="width:200px; height:50px; margin:10px; font-size:20px;">予約する</button>
     </form>
 <!-- 취소 버튼 -->
     <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel" method="post" style="display:inline;">
         <input type="hidden" name="location" value="${location}" />
-        <button type="submit" class="btn cancel">予約取り消し</button>
+        <button type="submit" class="btn cancel" style="width:200px; height:50px; margin:10px; font-size:20px;">予約取り消し</button>
     </form>
 </div>
 

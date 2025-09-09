@@ -44,15 +44,5 @@
     <p>開始：<fmt:formatDate value="${activeRental.startTime}" pattern="yyyy/MM/dd HH:mm"/></p>
     <p>終了：<fmt:formatDate value="${activeRental.endTime}" pattern="yyyy/MM/dd HH:mm"/></p>
         <hr class="divider"/>
-
-          <div style="text-align:left; margin-top:1rem;">
-            <form action="${pageContext.request.contextPath}/" method="get">
-              <button type="submit"
-                      style="width:200px; height:50px; margin:10px; font-size:20px;">
-                確認
-              </button>
-            </form>
-          </div>
-
 </body>
 </html>

@@ -29,7 +29,7 @@
     <c:set var="rental" value="${res.rental}" />
     <c:set var="locker" value="${res.locker}" />
 
-    <div style="border:1px solid #ccc; box-sizing: border-box; width: 500px; height: 400px; padding:10px; margin-bottom:10px;">
+    <div style="border:1px solid #ccc; box-sizing: border-box; width: 500px; height: 430px; padding:10px; margin-bottom:10px;">
         <p>番号: ${rental.lockerCode}</p>
         <p>設置場所: ${locker.location}</p>
 
@@ -59,7 +59,7 @@
         <c:if test ="${rental.status ==1}">
             <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel?userId=${sessionScope.loginUser.id}" method="post" style="display:inline;">
                 <input type="hidden" name="location" value="${location}" />
-                <button type="submit" class="btn cancel">利用終了</button>
+                <button type="submit" class="btn cancel" style="width:200px; height:50px; margin:10px; font-size:20px;">利用終了</button>
         </c:if>
     </div>
 </c:forEach>
