@@ -57,7 +57,7 @@
         </p>
 
         <c:if test ="${rental.status ==1}">
-            <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel" method="post" style="display:inline;">
+            <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/cancel?userId=${sessionScope.loginUser.id}" method="post" style="display:inline;">
                 <input type="hidden" name="location" value="${location}" />
                 <button type="submit" class="btn cancel">利用終了</button>
         </c:if>

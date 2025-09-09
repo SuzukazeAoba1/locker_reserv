@@ -161,7 +161,7 @@ public class ReservationController {
     // 5. 예약 취소
     @PostMapping("/lockers/{lockerCode}/cancel")
     public String cancel(@PathVariable Long lockerCode,
-                         @RequestParam String location,
+                         @RequestParam String userId,
                          @RequestParam(defaultValue = "0") int days,
                          RedirectAttributes ra) {
         try {
@@ -170,8 +170,7 @@ public class ReservationController {
         } catch (Exception e) {
             ra.addFlashAttribute("error", "キャンセル／終了に失敗しました： " + e.getMessage());
         }
-        return "redirect:/reservation/lockers/" + lockerCode + "?location=" +
-                UriUtils.encode(location, StandardCharsets.UTF_8);
+        return "redirect:/reservation/my_reservations?userId=" + userId;
 
     }
 
