@@ -188,6 +188,8 @@
 
 <hr class="solid"/>
 <!-- 예약 버튼 -->
+
+<c:if test="${sessionScope.loginUser != null}">
     <form action="${pageContext.request.contextPath}/reservation/lockers/${locker.lockerCode}/reserve" method="post" style="display:inline;">
         <input type="hidden" name="userId" value="1" /> <!-- 로그인 유저 ID로 교체 -->
         <input type="hidden" name="location" value="${location}" />
@@ -204,6 +206,7 @@
         <input type="hidden" name="location" value="${location}" />
         <button type="submit" class="btn cancel" style="width:200px; height:50px; margin:10px; font-size:20px;">予約取り消し</button>
     </form>
+</c:if>
 </div>
 
 </body>
