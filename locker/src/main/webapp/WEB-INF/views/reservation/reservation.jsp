@@ -156,9 +156,9 @@
         <p>価格: ${locker.price}</p>
         <p>状態: <span class="${statusClass}">${statusLabel}</span></p>
     </div>
-    <div class="side" align="center">
+    <div class="side" align="left">
       <c:if test="${locker.status == 2 || locker.status == 3}">
-        <div class="panel" align="center">
+        <div class="panel" align="left">
           <h3>予約／利用情報</h3>
           <c:choose>
             <c:when test="${not empty activeRental}">
