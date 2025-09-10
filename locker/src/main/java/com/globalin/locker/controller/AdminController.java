@@ -215,4 +215,41 @@ public class AdminController {
         return "redirect:" + backUrl;
     }
 
+
+    @GetMapping("/notices/new")
+    public String newForm(Model model,
+                          @SessionAttribute(name = "loginUserId", required = false) Long loginUserId,
+                          @RequestParam(value = "backUrl", required = false) String backUrl) {
+
+        model.addAttribute("loginUserId", loginUserId); // JSP hidden authorId로 사용
+        model.addAttribute("backUrl", backUrl);
+        return "admin/admin_notices_new"; // 위 JSP 경로
+    }
+
+    // 신규 작성 처리
+    @PostMapping("/notices/new")
+    public String create(@RequestParam String title,
+                         @RequestParam String content,
+                         @SessionAttribute(name="loginUser", required=false) Account loginUser,
+                         @RequestParam(required=false) String backUrl,
+                         RedirectAttributes ra) {
+        if (loginUser == null) return "redirect:/login";
+
+        Notice n = new Notice();
+        n.setTitle(title);
+        n.setContent(content);
+        n.setAuthorId(loginUser.getId()); // 👈 null 방지
+
+        noticeService.createNotice(n);
+        ra.addFlashAttribute("msg", "登録しました。");
+        return "redirect:/";
+    }
+
+    @GetMapping("/notices/{id}/delete")
+    public String delete(@PathVariable Long id) {
+        noticeService.deleteNotice(id);
+        return "redirect:/"; // 삭제 후 목록으로 이동
+    }
+
+
 }

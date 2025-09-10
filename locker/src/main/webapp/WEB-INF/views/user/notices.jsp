@@ -143,6 +143,12 @@
         <!-- 필요 시 편집 링크 노출 -->
         <!--<a class="btn btn-edit" href="${pageContext.request.contextPath}/admin/notices/${notice.id}/edit">編集</a>-->
         <a class="btn" href="${backUrl}?page=${page}">戻る</a>
+        <c:if test="${sessionScope.loginUser != null && sessionScope.loginUser.role eq 'ADMIN'}">
+            <a class="btn" href="${pageContext.request.contextPath}/admin/notices/${notice.id}/delete"
+               style="color:red; text-decoration:none; margin-left:8px;">
+               削除
+            </a>
+        </c:if>
       </div>
     </div>
   </div>

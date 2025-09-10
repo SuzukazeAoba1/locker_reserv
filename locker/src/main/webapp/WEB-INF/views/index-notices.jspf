@@ -47,14 +47,27 @@
   </c:choose>
 </div>
 
-<div class="center" style="padding-top:16px;">
+<div class="pagination-container" style="padding-top:12px; display:flex; justify-content:center; align-items:center; position:relative;">
+
+  <!-- 페이지네이션 (가운데) -->
+  <div class="pager">
     <c:if test="${startPage > pageBlock}">
         <a href="/?page=${startPage-pageBlock}">[前へ]</a>
     </c:if>
     <c:forEach var="i" begin="${startPage}" end="${endPage}">
-    <a href="/?page=${i}">[${i}]</a>
-    </c:forEach >
+        <a href="/?page=${i}">[${i}]</a>
+    </c:forEach>
     <c:if test="${endPage < pageCount}">
         <a href="/?page=${startPage+pageBlock}">[次へ]</a>
     </c:if>
+  </div>
+
+  <!-- 관리자 전용 글쓰기 버튼 (오른쪽) -->
+  <c:if test="${sessionScope.loginUser != null && sessionScope.loginUser.role eq 'ADMIN'}">
+    <a href="${pageContext.request.contextPath}/admin/notices/new"
+       style="position:absolute; right:0; padding:0px 60px; border:1px solid #2d6cdf;
+              background:#2d6cdf; color:#fff; border-radius:6px; text-decoration:none; font-weight:600;">
+       投稿
+    </a>
+  </c:if>
 </div>
