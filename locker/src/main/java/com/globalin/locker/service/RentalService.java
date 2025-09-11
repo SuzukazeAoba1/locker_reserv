@@ -27,6 +27,9 @@ public class RentalService {
 
     @Transactional
     public Long reserveOrCancel(Long lockerCode, Long userId, Action action, int days) {
+
+        System.out.println(days);
+
         switch (action) {
             case RESERVE: {
                 // ✅ userId 선검증: 비어있으면 아예 진행 안 함

@@ -79,10 +79,10 @@ public class AdminController {
     @PostMapping("/lockers/{code}/start")
     public String start(@PathVariable Long code,
                         @RequestParam String location,
-                        @RequestParam int days,
+                        @RequestParam(defaultValue = "7") int days,
                         RedirectAttributes ra) {
         try {
-            Long rid = rentalService.reserveOrCancel(code, null, RentalService.Action.START,days);
+            Long rid = rentalService.reserveOrCancel(code, null, RentalService.Action.START,7);
             ra.addFlashAttribute("msg", "使用を開始しました（rentalId=" + rid + "）");
         } catch (Exception e) {
             ra.addFlashAttribute("error", "使用開始に失敗しました： " + e.getMessage());
@@ -106,7 +106,7 @@ public class AdminController {
     public String reserve(@PathVariable Long code,
                           @RequestParam Long userId,
                           @RequestParam String location,
-                          @RequestParam int days,
+                          @RequestParam(defaultValue = "7") int days,
                           RedirectAttributes ra) {
         try {
             Long rid = rentalService.reserveOrCancel(code, userId, RentalService.Action.RESERVE,days);
@@ -121,7 +121,7 @@ public class AdminController {
     @PostMapping("/lockers/{code}/cancel")
     public String cancel(@PathVariable Long code,
                          @RequestParam String location,
-                         @RequestParam int days,
+                         @RequestParam(defaultValue = "7") int days,
                          RedirectAttributes ra) {
         try {
             Long rid = rentalService.reserveOrCancel(code, null, RentalService.Action.CANCEL,days);
